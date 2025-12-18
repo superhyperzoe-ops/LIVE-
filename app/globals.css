@@ -1,0 +1,548 @@
+/* Global typography scale: headings (IBM Plex Sans Condensed) and body (IBM Plex Sans) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth; /* Native smooth scrolling */
+    /* Use proximity for softer, more natural scroll snap */
+    scroll-snap-type: y proximity;
+    height: 100%;
+    overflow-y: scroll;
+    overscroll-behavior-y: none; /* Prevent overscroll bounce */
+    scroll-padding-top: 0;
+  }
+  
+  /* Respect prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  
+  body {
+    @apply bg-bg-global text-gray-50 antialiased font-sans text-base;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: var(--font-body), "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.7;
+    letter-spacing: 0;
+    overflow-x: hidden;
+  }
+  
+  main {
+    width: 100%;
+  }
+  
+  section {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal; /* Allow natural scrolling, not always */
+    min-height: 100vh;
+    scroll-margin-top: 66px; /* Compensate for navbar height */
+    position: relative;
+  }
+  
+  footer {
+    flex-shrink: 0;
+    scroll-snap-align: none;
+  }
+  
+  /* Headings : IBM Plex Sans Condensed - Angular and minimal */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading), "IBM Plex Sans Condensed", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em; /* Sharper feel */
+  }
+  
+  h1 {
+    @apply font-heading font-semibold text-4xl md:text-5xl;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-transform: none;
+  }
+  
+  h2 {
+    @apply font-heading font-semibold text-3xl md:text-4xl;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    text-transform: none;
+  }
+  
+  h3 {
+    @apply font-heading font-medium text-xl md:text-2xl;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+  
+  h4 {
+    @apply font-heading font-medium uppercase text-sm;
+    line-height: 1.4;
+    letter-spacing: 0.14em; /* 0.12em-0.16em range for uppercase UI */
+  }
+  
+  h5, h6 {
+    @apply font-heading font-medium;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Navigation */
+  nav {
+    font-family: var(--font-heading), "IBM Plex Sans Condensed", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  
+  /* Paragraphs and body text : IBM Plex Sans */
+  p {
+    @apply font-sans text-base;
+    font-family: var(--font-body), "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.7; /* 1.65-1.75 range for readability */
+    letter-spacing: 0;
+  }
+
+  /* Lists */
+  ul, ol, li {
+    font-family: var(--font-body), "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.7;
+  }
+
+  /* Labels and short text */
+  label, span, small {
+    font-family: var(--font-body), "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  
+  /* Utility classes for text */
+  .text {
+    font-family: var(--font-body), "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  
+  .description {
+    font-family: var(--font-body), "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  
+  /* Utility classes for UI */
+  .ui {
+    font-family: var(--font-heading), "IBM Plex Sans Condensed", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .snap-start {
+    scroll-snap-align: start;
+  }
+  
+  .snap-always {
+    scroll-snap-stop: always;
+  }
+}
+
+/* TYPO SYSTEME GLOBAL */
+@layer components {
+  .heading-section {
+    @apply font-heading font-medium text-4xl md:text-5xl lg:text-6xl;
+    line-height: 1.2;
+    letter-spacing: -0.02em; /* Sharper feel */
+    text-transform: none;
+  }
+
+  .heading-sub {
+    @apply font-heading font-medium text-2xl md:text-3xl lg:text-4xl;
+    line-height: 1.25;
+    letter-spacing: -0.02em; /* Sharper feel */
+    text-transform: none;
+  }
+
+  .heading-small {
+    @apply font-heading font-normal text-lg md:text-xl;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+
+  .body-large {
+    @apply font-sans text-lg md:text-xl font-normal;
+    line-height: 1.7; /* 1.65-1.75 range for readability */
+    letter-spacing: 0;
+  }
+
+  .body-base {
+    @apply font-sans text-base font-normal;
+    line-height: 1.7; /* 1.65-1.75 range for readability */
+    letter-spacing: 0;
+  }
+
+  .overline-label {
+    @apply font-heading text-[11px] md:text-xs uppercase text-neutral-400;
+    letter-spacing: 0.14em; /* 0.12em-0.16em range for uppercase UI */
+    font-weight: 500;
+  }
+
+  .heading-font {
+    @apply font-heading;
+  }
+}
+
+/* Navbar & large labels (LIVE / TECHNOLOGY / GALLERY / CONTACT / ABOUT...) */
+nav a,
+.nav-link,
+.nav-item,
+.navbar-link,
+.label,
+.ui {
+  font-family: var(--font-heading), "IBM Plex Sans Condensed", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.14em; /* 0.12em-0.16em range for uppercase UI */
+  text-transform: uppercase;
+}
+
+/* === Text to Video Pixel Stream Column === */
+/* Digital raster / pixel buffer animation on the right side of the screen */
+
+.pixel-stream-column {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 22.5%; /* 20-25% viewport width */
+  height: 100vh;
+  z-index: 1; /* Above background, below navigation (z-50) */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.pixel-stream-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Pixel block wrapper - contains raster trail and core block */
+.pixel-block-wrapper {
+  position: absolute;
+  transform: translateX(-50%); /* Center horizontally within column */
+  will-change: transform;
+}
+
+/* Digital raster trail container - extends UPWARD from the block */
+/* Trail is positioned above the square (square is at bottom: 0) */
+.pixel-raster-trail {
+  position: absolute;
+  bottom: 0; /* Trail starts just above the square */
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 0;
+  /* Minimal blur - subtle signal persistence only */
+  filter: blur(0.3px);
+}
+
+/* Individual trail segment - stacked rectangular pixels */
+/* Segments are positioned ABOVE the square, aligned with square width */
+.pixel-trail-segment {
+  position: absolute;
+  left: 0;
+  width: 100%; /* Exact same width as square */
+  /* Hard edges - strictly angular, no border-radius */
+  border-radius: 0;
+  /* Minimal shadow - very subtle signal persistence */
+  box-shadow: none;
+}
+
+/* Core pixel block - positioned at BOTTOM (trail extends upward from here) */
+.pixel-block-core {
+  position: absolute;
+  bottom: 0; /* Square is at the bottom, trail extends upward */
+  left: 0;
+  background: rgba(200, 220, 240, 0.85); /* Soft cyan-white, not bright white */
+  /* Strictly angular - no border-radius, hard edges */
+  border-radius: 0;
+  z-index: 2;
+  /* No glow, no blur - crisp and angular */
+  box-shadow: none;
+  border: 0.5px solid rgba(180, 200, 220, 0.3);
+}
+
+/* About Link Button - Minimal angular tech aesthetic */
+.about-link-line-top,
+.about-link-line-bottom {
+  width: 32px;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  transform-origin: center;
+}
+
+.group:hover .about-link-line-top,
+.group:focus-visible .about-link-line-top,
+.group:hover .about-link-line-bottom,
+.group:focus-visible .about-link-line-bottom {
+  transform: scaleX(2.25); /* 32px * 2.25 = 72px */
+  opacity: 0.9;
+}
+
+.about-link-arrow {
+  transition: transform 0.3s ease-out;
+  display: inline-block;
+}
+
+.group:hover .about-link-arrow,
+.group:focus-visible .about-link-arrow {
+  transform: translateX(8px);
+}
+
+/* Gallery Video - Subtle visual unification filter */
+/* Applied to all videos in the Gallery section for cohesive rendering */
+/* Goal: Subtle visual cohesion without noticeable filtering */
+
+.gallery-video {
+  /* Subtle desaturation: ~7% reduction (0.93 = 93% saturation) */
+  /* Adjust: 0.90-0.95 range for more/less desaturation */
+  filter: 
+    saturate(0.93)
+    /* Soft contrast lift: slight S-curve feeling (1.05 = 5% increase) */
+    /* Adjust: 1.02-1.08 range for more/less contrast */
+    contrast(1.05)
+    /* Very subtle brightness adjustment: slight cool-to-neutral bias */
+    /* Adjust: 0.96-1.00 range for cooler/warmer feel */
+    brightness(0.98)
+    /* Combined effect: subtle, cohesive, not noticeable */
+    ;
+  
+  /* No hover state changes - filter remains constant */
+  transition: filter 0s;
+}
+
+/* Optional: Very subtle overlay wrapper for additional cohesion */
+/* Only applied if parent container supports it */
+.gallery-video-wrapper {
+  position: relative;
+}
+
+.gallery-video-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Very subtle cool-neutral overlay at ~4% effective opacity */
+  background: linear-gradient(
+    180deg,
+    rgba(200, 220, 240, 0.015) 0%,
+    transparent 50%,
+    rgba(180, 200, 220, 0.015) 100%
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0.3; /* Low opacity for subtlety */
+  z-index: 0; /* Behind video content */
+}
+
+/* Static blocks for reduced motion preference */
+.pixel-block-static {
+  position: absolute;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+/* Technology cards - minimal, angular, system-like */
+.technology-card {
+  border-radius: 0;
+  box-shadow: none;
+  transition: border-color 0.2s ease-out, background-color 0.2s ease-out;
+}
+
+.technology-card:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.technology-card-image-wrapper {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.technology-card-image {
+  border-radius: 0;
+  /* Subtle, uniform treatment: very light desaturation + contrast lift */
+  filter:
+    saturate(0.94)
+    contrast(1.03);
+  transition: filter 0.2s ease-out;
+}
+
+.technology-card:hover .technology-card-image {
+  /* Slightly stronger contrast on hover, still minimal */
+  filter:
+    saturate(0.97)
+    contrast(1.06);
+}
+
+/* Gallery Cards - Strictly Angular, Architectural */
+/* Force zero border-radius on all gallery elements */
+@layer utilities {
+  /* Gallery card container - strictly rectangular */
+  .gallery-card,
+  [class*="gallery"] [class*="card"],
+  section#gallery [class*="rounded"] {
+    border-radius: 0 !important;
+  }
+
+  /* Gallery video elements - no rounded corners */
+  .gallery-video,
+  section#gallery video,
+  section#gallery img {
+    border-radius: 0 !important;
+  }
+
+  /* Gallery overlays and gradients - angular */
+  section#gallery [class*="overlay"],
+  section#gallery [class*="gradient"] {
+    border-radius: 0 !important;
+  }
+
+  /* Gallery modal - strictly angular */
+  .gallery-modal,
+  [class*="modal"] [class*="rounded"] {
+    border-radius: 0 !important;
+  }
+
+  /* Contact Start Button - Two lines that shift and shrink on hover */
+  .contact-start-button {
+    position: relative;
+  }
+
+  /* Top line using ::before */
+  .contact-start-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 1px;
+    background: white;
+    transition: left 300ms ease-out, transform 300ms ease-out, width 300ms ease-out;
+    transform-origin: center;
+  }
+
+  /* Bottom line using ::after */
+  .contact-start-button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 1px;
+    background: white;
+    transition: left 300ms ease-out, transform 300ms ease-out, width 300ms ease-out;
+    transform-origin: center;
+  }
+
+  /* Hover state: lines shift right and shrink to align with arrow */
+  /* Position calculation: align center of 20px lines with center of arrow */
+  /* Arrow position: center + (Start width/2 ~22px) + gap-3 (12px) + (arrow width/2 ~6px) + hover offset (8px) = ~48px */
+  .contact-start-button:hover::before,
+  .contact-start-button:focus-visible::before {
+    width: 20px; /* Shrink to encase arrow */
+    left: calc(50% + 48px); /* Position to align with arrow center after hover offset */
+    transform: translateX(-50%);
+  }
+
+  .contact-start-button:hover::after,
+  .contact-start-button:focus-visible::after {
+    width: 20px; /* Shrink to encase arrow */
+    left: calc(50% + 48px); /* Position to align with arrow center after hover offset */
+    transform: translateX(-50%);
+  }
+
+  /* Arrow slides right on hover */
+  .contact-start-button-arrow {
+    transition: transform 300ms ease-out;
+    display: inline-block;
+  }
+
+  .contact-start-button:hover .contact-start-button-arrow,
+  .contact-start-button:focus-visible .contact-start-button-arrow {
+    transform: translateX(8px);
+  }
+
+  /* Contact Next Button - Minimalist with filling lines */
+  .contact-next-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Top line using ::before - visible initially */
+  .contact-next-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: calc(100% + 16px); /* Slightly wider than text */
+    height: 1px;
+    background: white;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  /* Filling background between lines using ::after */
+  .contact-next-button::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 2px); /* Height between the two lines */
+    background: white;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 300ms ease-out;
+    z-index: 0;
+  }
+
+  /* Bottom line element */
+  .contact-next-button-bottom-line {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: calc(100% + 16px);
+    height: 1px;
+    background: white;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  /* Text visible initially in white */
+  .contact-next-button-text {
+    position: relative;
+    z-index: 2;
+    color: white;
+    transition: color 300ms ease-out;
+  }
+
+  /* Hover state: background fills from left to right, text becomes black */
+  .contact-next-button:not(:disabled):hover::after,
+  .contact-next-button:not(:disabled):focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .contact-next-button:not(:disabled):hover .contact-next-button-text,
+  .contact-next-button:not(:disabled):focus-visible .contact-next-button-text {
+    color: black;
+  }
+}
+
