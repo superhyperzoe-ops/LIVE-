@@ -38,7 +38,7 @@ export default function Hero() {
   return (
     <section 
       id="hero" 
-      className="relative min-h-screen w-full flex items-center pt-16 snap-start snap-always scroll-mt-0 overflow-hidden"
+      className="relative min-h-screen w-full max-w-full flex items-center pt-16 snap-start snap-always scroll-mt-0 overflow-hidden"
     >
       {/* Background video */}
       <motion.div

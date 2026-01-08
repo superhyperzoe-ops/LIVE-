@@ -12,7 +12,7 @@ import { galleryItems, type GalleryItem } from '@/data/gallery'
  * Adjust this value to control the scrolling speed
  * Lower value = slower scroll (more time to see each card)
  */
-const AUTO_SCROLL_SPEED_PX_PER_SEC = 650
+const AUTO_SCROLL_SPEED_PX_PER_SEC = 200 // Slower, more fluid movement
 
 /**
  * GallerySection component
@@ -172,7 +172,6 @@ export default function GallerySection() {
 
     // IntersectionObserver to detect when section becomes visible
     let observer: IntersectionObserver | null = null
-    let hasTriggered = false
 
     if (typeof IntersectionObserver !== 'undefined') {
       observer = new IntersectionObserver(
@@ -183,7 +182,6 @@ export default function GallerySection() {
           if (!entry?.isIntersecting) {
             // Reset when section leaves viewport
             stop()
-            hasTriggered = false
             return
           }
 
@@ -191,17 +189,22 @@ export default function GallerySection() {
           // Cancel any existing animation first to avoid duplicates
           stop()
 
-          // Wait for layout to be stable (double RAF)
-          requestAnimationFrame(() => {
+          // Wait for layout to be stable (double RAF) with a small delay
+          setTimeout(() => {
             requestAnimationFrame(() => {
-              if (section && track && !stopRef.current) {
-                hasTriggered = true
-                startAutoScroll()
-              }
+              requestAnimationFrame(() => {
+                if (section && track && !stopRef.current) {
+                  console.log('[Gallery] Starting auto-scroll on section entry') // TODO remove logs
+                  startAutoScroll()
+                }
+              })
             })
-          })
+          }, 300) // Small delay to ensure section is fully visible
         },
-        { threshold: 0.35, root: null }
+        { 
+          threshold: 0.2, // Lower threshold for earlier trigger
+          rootMargin: '-10% 0px -10% 0px' // Trigger when section is more visible
+        }
       )
 
       observer.observe(section)
@@ -211,28 +214,28 @@ export default function GallerySection() {
 
     // Fallback: if IntersectionObserver doesn't trigger or section is already visible
     const fallbackCheck = () => {
-      if (hasTriggered) return
-
       if (section && track) {
         const rect = section.getBoundingClientRect()
-        const isVisible = rect.top < window.innerHeight && rect.bottom > 0
+        const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > window.innerHeight * 0.2
 
         if (isVisible) {
-          console.log('[Gallery] Fallback: Section already visible, starting auto-scroll') // TODO remove logs
+          console.log('[Gallery] Fallback: Section visible, starting auto-scroll') // TODO remove logs
           stop()
-          requestAnimationFrame(() => {
+          setTimeout(() => {
             requestAnimationFrame(() => {
-              if (section && track && !stopRef.current) {
-                startAutoScroll()
-              }
+              requestAnimationFrame(() => {
+                if (section && track && !stopRef.current) {
+                  startAutoScroll()
+                }
+              })
             })
-          })
+          }, 300)
         }
       }
     }
 
     // Try fallback after a short delay
-    const fallbackTimeout = setTimeout(fallbackCheck, 400)
+    const fallbackTimeout = setTimeout(fallbackCheck, 500)
 
     return () => {
       stop()

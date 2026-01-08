@@ -23,7 +23,7 @@ export default function Home() {
     <>
       <Navbar />
       <ScrollProgressBar />
-      <main className="w-full bg-black">
+      <main className="w-full max-w-full bg-black relative z-[5] overflow-x-hidden">
         <Hero />
         <TechnologySection />
         <SystemSummary />

@@ -14,45 +14,46 @@ export default function StyleDetails() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
+        staggerChildren: 0.2,
+        delayChildren: 0.2,
       },
     },
   }
 
-  // Variants for text items (fade in)
+  // Variants for text items (fade in) - slower and smoother
   const textItemVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1] as const,
-      },
-    },
-  }
-
-  // Variants for videos (slide up from bottom)
-  const videoVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 15 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.7,
-        ease: [0.22, 1, 0.36, 1] as const,
+        duration: 1.2,
+        ease: [0.25, 0.46, 0.45, 0.94] as const, // easeOutQuad - smoother
       },
     },
   }
 
-  // Container variant for videos with stagger
+  // Variants for videos (slide up from bottom) - slower and smoother
+  const videoVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 1.4,
+        ease: [0.25, 0.46, 0.45, 0.94] as const, // easeOutQuad - smoother
+      },
+    },
+  }
+
+  // Container variant for videos with stagger - slower stagger
   const videosContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.4, // Start after text animation
+        staggerChildren: 0.25,
+        delayChildren: 0.6, // Start after text animation with more delay
       },
     },
   }

@@ -38,7 +38,7 @@ export default function SystemDetails() {
           scale: 1,
           transition: {
             duration: 1.6,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.22, 1, 0.36, 1] as const,
           },
         },
   }
@@ -53,7 +53,7 @@ export default function SystemDetails() {
           opacity: 1,
           transition: {
             duration: 0.4,
-            ease: 'easeOut',
+            ease: [0.25, 0.46, 0.45, 0.94] as const, // easeOutQuad
             staggerChildren: 0.1,
             delayChildren: 0.2,
           },
@@ -63,7 +63,7 @@ export default function SystemDetails() {
           x: 0,
           transition: {
             duration: 1.8,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.22, 1, 0.36, 1] as const,
             delay: 0.3,
             staggerChildren: 0.15,
             delayChildren: 0.2,
@@ -81,7 +81,7 @@ export default function SystemDetails() {
       y: prefersReducedMotion ? 0 : 0,
       transition: {
         duration: prefersReducedMotion ? 0.3 : 0.6,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.22, 1, 0.36, 1] as const,
       },
     },
   }
@@ -115,7 +115,7 @@ export default function SystemDetails() {
       x: 0,
       transition: {
         duration: prefersReducedMotion ? 0.3 : 0.5,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.22, 1, 0.36, 1] as const,
         staggerChildren: 0.08,
       },
     },
@@ -131,7 +131,7 @@ export default function SystemDetails() {
       x: 0,
       transition: {
         duration: prefersReducedMotion ? 0.2 : 0.4,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.22, 1, 0.36, 1] as const,
       },
     },
   }
@@ -140,7 +140,7 @@ export default function SystemDetails() {
     <section 
       ref={sectionRef}
       id="speech-detail" 
-      className="min-h-screen flex flex-col justify-center items-center py-16 snap-start snap-always scroll-mt-[66px]"
+      className="min-h-screen flex flex-col justify-center items-center py-16 snap-start snap-always scroll-mt-[66px] relative"
     >
       <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 lg:gap-8">
@@ -158,7 +158,7 @@ export default function SystemDetails() {
                 scale: 1.035,
                 transition: {
                   duration: 0.5,
-                  ease: [0.25, 0.46, 0.45, 0.94],
+                  ease: [0.25, 0.46, 0.45, 0.94] as const,
                 },
               }}
             >
@@ -205,7 +205,7 @@ export default function SystemDetails() {
                     boxShadow: 'inset 0 0 40px rgba(0, 0, 0, 0.15)',
                     transition: {
                       duration: 0.5,
-                      ease: [0.25, 0.46, 0.45, 0.94],
+                      ease: [0.25, 0.46, 0.45, 0.94] as const,
                     },
                   }}
                 />
@@ -225,7 +225,7 @@ export default function SystemDetails() {
                     y: ['-100%', '200%'],
                     transition: {
                       duration: 0.7,
-                      ease: [0.25, 0.46, 0.45, 0.94],
+                      ease: [0.25, 0.46, 0.45, 0.94] as const,
                     },
                   }}
                 />
@@ -250,7 +250,7 @@ export default function SystemDetails() {
                     y: 0,
                     transition: {
                       duration: 0.3,
-                      ease: [0.25, 0.46, 0.45, 0.94],
+                      ease: [0.25, 0.46, 0.45, 0.94] as const,
                     },
                   }}
                 >

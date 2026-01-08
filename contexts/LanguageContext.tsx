@@ -43,7 +43,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       'nav.technology': { en: 'TECHNOLOGY', fr: 'TECHNOLOGIE' },
       'nav.gallery': { en: 'GALLERY', fr: 'GALERIE' },
       'nav.contact': { en: 'CONTACT', fr: 'CONTACT' },
-      'nav.about': { en: 'ABOUT', fr: 'À PROPOS' },
+      'nav.about': { en: 'ABOUT US', fr: 'À PROPOS' },
 
       // Hero
       'hero.title': { en: 'LIVE', fr: 'LIVE' },

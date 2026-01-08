@@ -5,16 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useActiveNavSection } from '@/hooks/useActiveNavSection'
 
 export function GlobalGlitchOverlay() {
-  // 1) Tous les hooks en haut, sans condition
   const activeSection = useActiveNavSection()
   const [lastSection, setLastSection] = useState<string | null>(null)
   const [isGlitching, setIsGlitching] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    // Logique pour déclencher le "burst glitch" quand la section change
-    if (!activeSection) return
-
     // Détecter les changements de section (ignorer les transitions vers "live")
     if (lastSection !== null && lastSection !== activeSection && activeSection !== 'live' && lastSection !== 'live') {
       // Changement détecté, déclencher le glitch
@@ -42,17 +38,16 @@ export function GlobalGlitchOverlay() {
     }
   }, [activeSection, lastSection])
 
-  // 2) Les early-return APRÈS les hooks
-  // On ne rend rien sur le bloc LIVE pour éviter le glitch sur le Hero
-  if (activeSection === 'live') {
-    return null
-  }
-
-  // 3) Générer 1-2 bandes fines pour le burst (après les hooks et early-return)
+  // Générer 1-2 bandes fines pour le burst
   const glitchBands = [
     { id: 1, x: '30%' },
     { id: 2, x: '70%' },
   ]
+
+  // Ne pas afficher l'overlay sur le Hero (LIVE) — après les hooks (règles des hooks)
+  if (activeSection === 'live') {
+    return null
+  }
 
   return (
     <div

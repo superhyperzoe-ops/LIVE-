@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { useRef } from 'react'
 import Layout from './Layout'
 import { staggerContainer, fadeInUp } from '@/lib/animations'
 
@@ -35,38 +35,48 @@ const techCards: TechCard[] = [
 
 export default function TechnologySection() {
   const sectionRef = useRef<HTMLElement>(null)
-  const isInView = useInView(sectionRef, { 
-    once: false,
-    amount: 0.3,
-    margin: '-100px'
-  })
-  const [hasBeenAligned, setHasBeenAligned] = useState(false)
-  const [isScrolledPast, setIsScrolledPast] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return
-      
-      const rect = sectionRef.current.getBoundingClientRect()
-      
-      if (isInView) {
-        setHasBeenAligned(true)
-        setIsScrolledPast(false)
-      } else if (hasBeenAligned) {
-        // If section is above viewport (scrolled past downward)
-        if (rect.bottom < 0) {
-          setIsScrolledPast(true)
-        } else {
-          setIsScrolledPast(false)
+  const cardsContainerRef = useRef<HTMLDivElement>(null)
+  
+  // Animation variants for each card direction
+  const cardVariants = {
+    hidden: (index: number) => {
+      // Card 0 (System - gauche): from left
+      if (index === 0) {
+        return { 
+          opacity: 0, 
+          x: -100,
+          y: 0
         }
       }
-    }
-
-    handleScroll() // Initial check
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [isInView, hasBeenAligned])
+      // Card 1 (Moderation - milieu): from bottom
+      if (index === 1) {
+        return { 
+          opacity: 0, 
+          x: 0,
+          y: 80
+        }
+      }
+      // Card 2 (Style - droite): from right
+      if (index === 2) {
+        return { 
+          opacity: 0, 
+          x: 100,
+          y: 0
+        }
+      }
+      return { opacity: 0, x: 0, y: 0 }
+    },
+    visible: (index: number) => ({
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: {
+        duration: 1.2,
+        ease: [0.25, 0.46, 0.45, 0.94] as const, // easeOutQuad - plus doux
+        delay: index * 0.2, // Stagger delay plus long
+      },
+    }),
+  }
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id)
@@ -75,12 +85,6 @@ export default function TechnologySection() {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
-
-  // Define initial offsets for each card (more pronounced for dramatic effect)
-  const cardOffsetsY = [-70, 50, -80] // System: -70px, Moderation: +50px, Style: -80px
-  const cardOffsetsX = [-15, 20, -10] // Slight horizontal offsets for more chaos
-  const cardScales = [0.92, 0.95, 0.90] // Different initial scales for each card
-  const cardRotations = [-2, 1.5, -1.5] // Slight rotations in degrees
 
   return (
     <section 
@@ -110,17 +114,19 @@ export default function TechnologySection() {
           </motion.div>
 
           <motion.div 
+            ref={cardsContainerRef}
             className="grid md:grid-cols-3 gap-8 lg:gap-10"
           >
             {techCards.map((card, index) => (
               <motion.button
                 key={index}
+                custom={index}
                 onClick={() => scrollToSection(card.sectionId)}
                 className="technology-card block w-full text-left bg-bg-card border border-white/15 p-5 lg:p-6 cursor-pointer relative overflow-hidden group"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.4, ease: 'easeOut', delay: index * 0.06 }}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.2 }}
                 whileHover={{
                   scale: 1.05,
                   y: -6,
@@ -140,7 +146,7 @@ export default function TechnologySection() {
                     y: -8,
                     transition: {
                       duration: 0.6,
-                      ease: 'easeOut',
+                      ease: [0.25, 0.46, 0.45, 0.94] as const,
                     },
                   }}
                 >
@@ -152,7 +158,7 @@ export default function TechnologySection() {
                       filter: 'saturate(1.06) contrast(1.08)',
                       transition: {
                         duration: 0.3,
-                        ease: 'easeOut',
+                          ease: [0.25, 0.46, 0.45, 0.94] as const,
                       },
                     }}
                   />
@@ -166,7 +172,7 @@ export default function TechnologySection() {
                     opacity: 1,
                     transition: {
                       duration: 0.4,
-                      ease: 'easeOut',
+                        ease: [0.25, 0.46, 0.45, 0.94] as const,
                     },
                   }}
                 >

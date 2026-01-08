@@ -1,24 +1,33 @@
 import type { Metadata } from 'next'
-import { IBM_Plex_Sans_Condensed, IBM_Plex_Sans } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 
-// IBM Plex Sans Condensed pour les titres et éléments UI
-const ibmPlexSansCondensed = IBM_Plex_Sans_Condensed({
-  subsets: ['latin'],
+// OldStandardTT Bold pour les titres
+const oldStandardBold = localFont({
+  src: '../public/OldStandardTT-Bold.woff',
   variable: '--font-heading',
   display: 'swap',
-  weight: ['500', '600', '700'],
-  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+  weight: '700',
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'serif'],
 })
 
-// IBM Plex Sans pour le corps de texte
-const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ['latin'],
+// CoFoSansMonoVF pour les sous-titres et labels
+const coFoSansMono = localFont({
+  src: '../public/CoFoSansMonoVF-Regular.woff',
+  variable: '--font-label',
+  display: 'swap',
+  weight: '400',
+  fallback: ['monospace', 'Courier New', 'monospace'],
+})
+
+// OldStandardTT Regular pour le corps de texte
+const oldStandardRegular = localFont({
+  src: '../public/OldStandardTT-Regular.woff',
   variable: '--font-body',
   display: 'swap',
-  weight: ['400', '500'],
-  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+  weight: '400',
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'serif'],
 })
 
 export const metadata: Metadata = {
@@ -34,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className="scroll-smooth">
       <body 
-        className={`${ibmPlexSansCondensed.variable} ${ibmPlexSans.variable} font-sans`}
+        className={`${oldStandardBold.variable} ${coFoSansMono.variable} ${oldStandardRegular.variable} font-sans`}
         style={{ backgroundColor: '#000000', color: '#f9fafb' }}
       >
         <LanguageProvider>
