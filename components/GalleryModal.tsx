@@ -176,11 +176,24 @@ export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProp
               {/* Right column: Media */}
               <div className="flex items-center justify-center lg:justify-end">
                 <div className="relative w-full max-w-[320px] aspect-[9/16] overflow-hidden border border-white/10">
-                  <img
-                    src={item.mediaSrc}
-                    alt={title}
-                    className="w-full h-full object-cover gallery-video"
-                  />
+                  {item.mediaType === 'video' ? (
+                    <video
+                      src={item.mediaSrc}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      controls
+                      preload="metadata"
+                      className="w-full h-full object-cover gallery-video"
+                    />
+                  ) : (
+                    <img
+                      src={item.mediaSrc}
+                      alt={title}
+                      className="w-full h-full object-cover gallery-video"
+                    />
+                  )}
                 </div>
               </div>
             </div>

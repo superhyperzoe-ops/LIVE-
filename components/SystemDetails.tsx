@@ -234,9 +234,13 @@ export default function SystemDetails() {
                 />
               )}
 
-              <img
-                src="/Image_system_tech.png"
-                alt={t('speech.title')}
+              <video
+                src="/videos/core/speech_final.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
                 className="h-full w-full object-cover relative z-0"
               />
 

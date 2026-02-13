@@ -4,13 +4,13 @@ import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import GlitchLinesAnimation from './GlitchLinesAnimation'
 
-const IMAGE_SOURCES = [
-  '/Image_style_tech.png',
-  '/Image_system_tech.png',
-  '/moderation.jpeg',
-  '/aboutus.webp',
-  '/Image_style_tech.png',
-  '/Image_system_tech.png',
+const VIDEO_SOURCES = [
+  '/videos/style/Lora1.mp4',
+  '/videos/style/Lora2.mp4',
+  '/videos/style/Lora3.mp4',
+  '/videos/style/Lora4.mp4',
+  '/videos/style/Lora5.mp4',
+  '/videos/style/Lora6.mp4',
 ]
 
 export default function StyleDetails() {
@@ -99,12 +99,12 @@ export default function StyleDetails() {
             </motion.p>
           </motion.div>
 
-          {/* Three equal 16:9 images, side by side, with staggered slide-up animation */}
+          {/* Three equal 16:9 videos, side by side, with staggered slide-up animation */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4"
             variants={videosContainerVariants}
           >
-            {IMAGE_SOURCES.map((src, index) => (
+            {VIDEO_SOURCES.map((src, index) => (
               <motion.div
                 key={`${src}-${index}`}
                 className="w-full overflow-hidden border-0 outline-none"
@@ -118,9 +118,13 @@ export default function StyleDetails() {
                 }}
               >
                 <div className="w-full aspect-video">
-                  <img
+                  <video
                     src={src}
-                    alt={t('style.title')}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
                     className="block w-full h-full object-cover border-0 outline-none"
                   />
                 </div>

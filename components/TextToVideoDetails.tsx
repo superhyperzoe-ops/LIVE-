@@ -112,7 +112,7 @@ export default function TextToVideoDetails() {
         <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 lg:gap-8">
           {/* Two-column layout with premium scroll reveal animations */}
           <div className="grid gap-10 md:gap-14 lg:gap-20 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-center">
-            {/* Left: Image with breathing frame and hover interactions */}
+            {/* Left: Video with breathing frame and hover interactions */}
             <motion.div
               ref={videoContainerRef}
               className="relative overflow-hidden border border-white/10 bg-white/[0.02] [clip-path:polygon(0 0,100% 0,100% 100%,0 100%)] group"
@@ -126,9 +126,13 @@ export default function TextToVideoDetails() {
                 width: '100%',
               }}
             >
-              <img
-                src="/Image_style_tech.png"
-                alt={t('text.title')}
+              <video
+                src="/videos/core/text_final.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
                 style={{ 
                   minHeight: '400px',

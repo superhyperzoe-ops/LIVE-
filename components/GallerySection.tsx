@@ -290,11 +290,23 @@ export default function GallerySection() {
                 >
                   <div className="relative overflow-hidden bg-bg-card shadow-lg group-hover:shadow-white/10 transition-all duration-300 h-full flex-1 min-w-[170px] sm:min-w-[210px] md:min-w-[240px] max-w-[280px]">
                     <div className="relative aspect-[9/16] h-full w-full">
-                      <img
-                        src={item.mediaSrc}
-                        alt={title}
-                        className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
-                      />
+                      {item.mediaType === 'video' ? (
+                        <video
+                          src={item.mediaSrc}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          preload="metadata"
+                          className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
+                        />
+                      ) : (
+                        <img
+                          src={item.mediaSrc || item.imageSrc}
+                          alt={title}
+                          className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-white transition-colors leading-tight">
@@ -426,13 +438,25 @@ export default function GallerySection() {
                 } : {})}
               >
                 <div className="relative overflow-hidden bg-bg-card shadow-lg group-hover:shadow-white/10 transition-all duration-300 h-full flex-1 min-w-[170px] sm:min-w-[210px] md:min-w-[240px] max-w-[280px]">
-                  {/* Image - Portrait 9:16 */}
+                  {/* Media - Portrait 9:16 */}
                   <div className="relative aspect-[9/16] h-full w-full">
-                    <img
-                      src={item.mediaSrc}
-                      alt={title}
-                      className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
-                    />
+                    {item.mediaType === 'video' ? (
+                      <video
+                        src={item.mediaSrc}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
+                      />
+                    ) : (
+                      <img
+                        src={item.mediaSrc || item.imageSrc}
+                        alt={title}
+                        className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
+                      />
+                    )}
                     {/* Gradient overlay on hover */}
                     <motion.div 
                       className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"

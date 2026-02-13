@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { staggerContainer, fadeInUp, scaleIn, clipReveal } from '@/lib/animations'
-const HERO_IMAGE_SRC = '/Image_system_tech.png'
+const HERO_VIDEO_SRC = '/videos/core/accueil_final.mp4'
 
 export default function Hero() {
   const { t } = useLanguage()
@@ -43,7 +43,7 @@ export default function Hero() {
       id="hero" 
       className="relative h-[100svh] w-full max-w-full flex items-center pt-16 scroll-mt-0 overflow-hidden"
     >
-      {/* Background image */}
+      {/* Background video */}
       <motion.div
         className="absolute top-0 left-0 w-full h-full z-0 overflow-hidden"
         style={{
@@ -52,9 +52,13 @@ export default function Hero() {
           scale: 1.1,
         }}
       >
-        <img
-          src={HERO_IMAGE_SRC}
-          alt="Portal background"
+        <video
+          src={HERO_VIDEO_SRC}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
           className="w-full h-full object-cover"
         />
       </motion.div>

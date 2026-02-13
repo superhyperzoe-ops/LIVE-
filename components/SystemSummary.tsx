@@ -16,6 +16,14 @@ type SystemRowProps = {
   delay?: number
 }
 
+const getVideoType = (src: string) => {
+  const lower = src.toLowerCase()
+  if (lower.endsWith('.mp4')) return 'video/mp4'
+  if (lower.endsWith('.mov')) return 'video/quicktime'
+  if (lower.endsWith('.webm')) return 'video/webm'
+  return undefined
+}
+
 const SystemRow: React.FC<SystemRowProps> = ({ title, label, description, imageSrc, href, direction, delay = 0 }) => {
   const { t } = useLanguage()
   
@@ -73,18 +81,23 @@ const SystemRow: React.FC<SystemRowProps> = ({ title, label, description, imageS
         </div>
       </div>
 
-      {/* Colonne image */}
+      {/* Colonne video */}
       <div className="relative h-40 md:h-44 lg:h-52 overflow-hidden">
         <motion.div
           className="absolute inset-0 overflow-hidden"
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
         >
-          <img
-            src={imageSrc}
-            alt={title}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
             className="h-full w-full object-cover"
-          />
+          >
+            <source src={imageSrc} type={getVideoType(imageSrc)} />
+          </video>
         </motion.div>
       </div>
     </motion.article>
@@ -112,7 +125,7 @@ export default function SystemSummary() {
                 title={t('system.speechToVideo')}
                 label={t('system.mode01')}
                 description={t('system.speechDescription')}
-                imageSrc="/Image_system_tech.png"
+                imageSrc="/videos/core/speech_final.mp4"
                 href="#speech-detail"
                 direction="left"
                 delay={0.1}
@@ -121,7 +134,7 @@ export default function SystemSummary() {
                 title={t('system.textToVideo')}
                 label={t('system.mode02')}
                 description={t('system.textDescription')}
-                imageSrc="/Image_style_tech.png"
+                imageSrc="/videos/core/text_final.mp4"
                 href="#text-detail"
                 direction="right"
                 delay={0.2}

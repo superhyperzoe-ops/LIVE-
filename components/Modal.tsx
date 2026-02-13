@@ -66,11 +66,24 @@ export default function Modal({ isOpen, onClose, imageUrl, title, description }:
               </svg>
             </motion.button>
             <div className="relative aspect-video">
-              <img
-                src={imageUrl}
-                alt={title}
-                className="w-full h-full object-cover"
-              />
+              {imageUrl.endsWith('.mp4') || imageUrl.endsWith('.mov') || imageUrl.endsWith('.MOV') || imageUrl.endsWith('.webm') || imageUrl.includes('.mp4') || imageUrl.includes('.mov') || imageUrl.includes('.MOV') || imageUrl.includes('.webm') ? (
+                <video
+                  src={imageUrl}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  controls
+                  preload="metadata"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <img
+                  src={imageUrl}
+                  alt={title}
+                  className="w-full h-full object-cover"
+                />
+              )}
             </div>
             <motion.div 
               className="p-8"
