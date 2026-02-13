@@ -5,12 +5,12 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import GlitchLinesAnimation from './GlitchLinesAnimation'
 
 const VIDEO_SOURCES = [
-  '/Lora1.mp4',
-  '/Lora2.mp4',
-  '/Lora3.mp4',
-  '/Lora4.mp4',
-  '/Lora5.mp4',
-  '/Lora6.mp4',
+  '/videos/style/Lora1.mp4',
+  '/videos/style/Lora2.mp4',
+  '/videos/style/Lora3.mp4',
+  '/videos/style/Lora4.mp4',
+  '/videos/style/Lora5.mp4',
+  '/videos/style/Lora6.mp4',
 ]
 
 export default function StyleDetails() {

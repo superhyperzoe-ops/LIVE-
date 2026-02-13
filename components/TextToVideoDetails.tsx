@@ -128,7 +128,7 @@ export default function TextToVideoDetails() {
               }}
             >
               <video
-                src="/Videos/text_final.mp4"
+                src="/videos/core/text_final.mp4"
                 autoPlay
                 muted
                 loop

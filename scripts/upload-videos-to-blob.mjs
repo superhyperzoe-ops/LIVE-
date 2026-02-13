@@ -21,9 +21,9 @@ const projectRoot = join(__dirname, '..')
 
 // Mapping des noms de fichiers vers les clés de variables d'environnement
 const FILE_TO_ENV_KEY = {
-  'video-accueil-live.mov': 'NEXT_PUBLIC_BLOB_HERO_URL',
-  'speech.MOV': 'NEXT_PUBLIC_BLOB_SPEECH_URL',
-  'text.MOV': 'NEXT_PUBLIC_BLOB_TEXT_URL',
+  'accueil_final.mp4': 'NEXT_PUBLIC_BLOB_HERO_URL',
+  'speech_final.mp4': 'NEXT_PUBLIC_BLOB_SPEECH_URL',
+  'text_final.mp4': 'NEXT_PUBLIC_BLOB_TEXT_URL',
   'PSG.mp4': 'NEXT_PUBLIC_BLOB_PSG_URL',
   'Yoyo.mp4': 'NEXT_PUBLIC_BLOB_YOYO_URL',
   'Gastronomy.mp4': 'NEXT_PUBLIC_BLOB_GASTRONOMY_URL',

@@ -31,9 +31,9 @@ const BLOB_URLS: Record<VideoKey, string | null> = {
 
 // Mapping vers les chemins locaux (fallback)
 const LOCAL_PATHS: Record<VideoKey, string> = {
-  hero: '/Videos/accueil_final.mp4',
-  speech: '/Videos/speech_final.mp4',
-  text: '/Videos/text_final.mp4',
+  hero: '/videos/core/accueil_final.mp4',
+  speech: '/videos/core/speech_final.mp4',
+  text: '/videos/core/text_final.mp4',
   psg: '/PSG.mp4',
   yoyo: '/Yoyo.mp4',
   gastronomy: '/Gastronomy.mp4',

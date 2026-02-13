@@ -125,7 +125,7 @@ export default function SystemSummary() {
                 title={t('system.speechToVideo')}
                 label={t('system.mode01')}
                 description={t('system.speechDescription')}
-                imageSrc="/Videos/speech_final.mp4"
+                imageSrc="/videos/core/speech_final.mp4"
                 href="#speech-detail"
                 direction="left"
                 delay={0.1}
@@ -134,7 +134,7 @@ export default function SystemSummary() {
                 title={t('system.textToVideo')}
                 label={t('system.mode02')}
                 description={t('system.textDescription')}
-                imageSrc="/Videos/text_final.mp4"
+                imageSrc="/videos/core/text_final.mp4"
                 href="#text-detail"
                 direction="right"
                 delay={0.2}

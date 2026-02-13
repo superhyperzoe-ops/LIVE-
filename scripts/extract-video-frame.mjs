@@ -5,7 +5,7 @@
  * Nécessite ffmpeg installé
  * 
  * Usage: node scripts/extract-video-frame.mjs <video-file> <output-image>
- * Exemple: node scripts/extract-video-frame.mjs public/speech.MOV public/speech-thumbnail.png
+* Exemple: node scripts/extract-video-frame.mjs public/videos/core/speech_final.mp4 public/speech-thumbnail.png
  */
 
 import { exec } from 'child_process'
@@ -23,7 +23,7 @@ const [videoFile, outputFile] = process.argv.slice(2)
 
 if (!videoFile || !outputFile) {
   console.error('Usage: node scripts/extract-video-frame.mjs <video-file> <output-image>')
-  console.error('Example: node scripts/extract-video-frame.mjs public/speech.MOV public/speech-thumbnail.png')
+console.error('Example: node scripts/extract-video-frame.mjs public/videos/core/speech_final.mp4 public/speech-thumbnail.png')
   process.exit(1)
 }
 

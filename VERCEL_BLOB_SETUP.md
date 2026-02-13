@@ -27,9 +27,9 @@ Placez toutes les vidéos à uploader dans le dossier `videos_to_upload/` :
 
 ```
 videos_to_upload/
-  ├── video-accueil-live.mov
-  ├── speech.MOV
-  ├── text.MOV
+  ├── accueil_final.mp4
+  ├── speech_final.mp4
+  ├── text_final.mp4
   ├── PSG.mp4
   ├── Yoyo.mp4
   ├── Gastronomy.mp4
@@ -87,9 +87,9 @@ import { getVideoUrl } from '@/lib/videos'
 
 | Clé | Fichier source | Usage |
 |-----|----------------|-------|
-| `hero` | `video-accueil-live.mov` | Hero section |
-| `speech` | `speech.MOV` | SystemDetails component |
-| `text` | `text.MOV` | TextToVideoDetails component |
+| `hero` | `accueil_final.mp4` | Hero section |
+| `speech` | `speech_final.mp4` | SystemDetails component |
+| `text` | `text_final.mp4` | TextToVideoDetails component |
 | `psg` | `PSG.mp4` | Gallery |
 | `yoyo` | `Yoyo.mp4` | Gallery |
 | `gastronomy` | `Gastronomy.mp4` | Gallery |
