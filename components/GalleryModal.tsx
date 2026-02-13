@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { type GalleryItem } from '@/data/gallery'
 
 interface GalleryModalProps {
@@ -11,6 +12,7 @@ interface GalleryModalProps {
 }
 
 export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProps) {
+  const { language } = useLanguage()
   const modalRef = useRef<HTMLDivElement>(null)
   const previousActiveElementRef = useRef<HTMLElement | null>(null)
 
@@ -57,6 +59,10 @@ export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProp
   }, [isOpen, onClose])
 
   if (!item) return null
+
+  const title = language === 'fr' ? item.titleFr : item.title
+  const tagline = language === 'fr' ? item.taglineFr : item.tagline
+  const description = language === 'fr' ? item.descriptionFr : item.description
 
   return (
     <AnimatePresence>
@@ -108,18 +114,13 @@ export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProp
               <div className="flex flex-col space-y-6">
                 {/* Overline */}
                 <div className="text-xs uppercase tracking-[0.2em] text-white/60 font-medium">
-                  LIVE EVENT • {item.year}
+                  {item.year}
                 </div>
 
                 {/* Title */}
                 <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
-                  {item.title}
+                  {title}
                 </h2>
-
-                {/* Tagline */}
-                <p className="text-lg text-white/80 font-medium">
-                  {item.tagline}
-                </p>
 
                 {/* Meta grid */}
                 <div className="grid grid-cols-2 gap-6 pt-4 border-t border-white/10">
@@ -143,30 +144,21 @@ export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProp
                     </div>
                   </div>
 
-                  {/* Date */}
-                  <div>
-                    <div className="text-xs uppercase tracking-[0.15em] text-white/50 mb-1">
-                      DATE
-                    </div>
-                    <div className="text-sm text-white/90">
-                      {item.year}
-                    </div>
-                  </div>
 
-                  {/* Lora */}
+                  {/* Style */}
                   <div>
                     <div className="text-xs uppercase tracking-[0.15em] text-white/50 mb-1">
-                      LORA
+                      STYLE
                     </div>
                     <div className="text-sm text-white/90">
                       {item.lora}
                     </div>
                   </div>
 
-                  {/* Role - Full width */}
-                  <div className="col-span-2">
+                  {/* System */}
+                  <div>
                     <div className="text-xs uppercase tracking-[0.15em] text-white/50 mb-1">
-                      ROLE
+                      SYSTEM
                     </div>
                     <div className="text-sm text-white/90">
                       {item.role}
@@ -177,7 +169,7 @@ export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProp
                 {/* Description */}
                 <div className="pt-4 border-t border-white/10">
                   <p className="text-base text-white/70 leading-relaxed">
-                    {item.description}
+                    {description}
                   </p>
                 </div>
               </div>
@@ -198,7 +190,7 @@ export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProp
                   ) : (
                     <img
                       src={item.mediaSrc}
-                      alt={item.title}
+                      alt={title}
                       className="w-full h-full object-cover"
                     />
                   )}

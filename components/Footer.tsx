@@ -24,79 +24,77 @@ export default function Footer() {
   return (
       <footer 
         id="footer-section" 
-        className="w-full bg-neutral-900 py-10 md:py-12"
+        className="w-full bg-neutral-900 py-3 md:py-4"
       >
         <div className="w-full max-w-6xl mx-auto px-4 md:px-8">
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mb-8">
-            {/* Brand */}
-            <div className="space-y-4">
-              <div className="text-xl font-semibold tracking-wider">OBVIOUS LIVE</div>
+          <div className="grid md:grid-cols-2 md:justify-items-center gap-6 lg:gap-8 mb-3 items-center">
+            {/* Portal - Left */}
+            <div className="space-y-2 text-center md:text-center">
+              <div className="text-xl font-semibold tracking-wider text-white">
+                Portal
+              </div>
               <p className="text-sm text-gray-400 leading-relaxed">
-                {t('footer.description')}
+                <span className="block whitespace-nowrap">
+                  {t('hero.descriptionLine1a')} {t('hero.descriptionLine1b')}
+                </span>
+                <span className="block whitespace-nowrap">
+                  {t('hero.descriptionLine2')}
+                </span>
               </p>
             </div>
 
-            {/* Navigation */}
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-gray-300">
-                {t('footer.navigation')}
-              </h3>
-              <nav className="space-y-2">
-                {footerNav.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    onClick={(e) => handleClick(e, item.href)}
-                    className="block text-sm text-gray-400 hover:text-gray-300"
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </nav>
-            </div>
-
-            {/* Contact & Social */}
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-gray-300">
+            {/* Contact & Social - Right */}
+            <div className="space-y-2 text-center md:text-center">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300">
                 {t('footer.contact')}
               </h3>
-              <div className="space-y-2">
+              <a
+                href="mailto:hello.obvious@gmail.com"
+                className="block text-sm text-gray-400 hover:text-gray-300"
+              >
+                hello.obvious@gmail.com
+              </a>
+              <div className="flex gap-4 pt-2 justify-center md:justify-center">
                 <a
-                  href="mailto:contact@obvious.live"
-                  className="block text-sm text-gray-400 hover:text-gray-300"
+                  href="https://www.instagram.com/obvious_art?igsh=dGxzY3o0a205cno3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-gray-300"
+                  aria-label="Instagram"
                 >
-                  contact@obvious.live
+                  <svg className="w-6 h-6 -translate-y-[3px]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4zm0 7.6a2.9 2.9 0 1 1 0-5.8 2.9 2.9 0 0 1 0 5.8zm6-7.8a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0zM20.6 7a4.6 4.6 0 0 0-1-1.6 4.6 4.6 0 0 0-1.6-1c-1.1-.4-3.7-.3-6-.3s-4.9-.1-6 .3a4.6 4.6 0 0 0-1.6 1A4.6 4.6 0 0 0 3.4 7c-.4 1.1-.3 3.7-.3 6s-.1 4.9.3 6a4.6 4.6 0 0 0 1 1.6 4.6 4.6 0 0 0 1.6 1c1.1.4 3.7.3 6 .3s4.9.1 6-.3a4.6 4.6 0 0 0 1.6-1 4.6 4.6 0 0 0 1-1.6c.4-1.1.3-3.7.3-6s.1-4.9-.3-6z" />
+                  </svg>
                 </a>
-                <div className="flex gap-4 pt-2">
-                  <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-gray-300"
-                    aria-label="LinkedIn"
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                  </a>
-                  <a
-                    href="https://twitter.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-gray-300"
-                    aria-label="Twitter"
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                    </svg>
-                  </a>
-                </div>
+                <a
+                  href="https://www.linkedin.com/company/obvious_art"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-gray-300"
+                  aria-label="LinkedIn"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://x.com/obv_ious"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-gray-300"
+                  aria-label="X"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2H21l-6.542 7.475L22 22h-6.828l-4.96-6.62L4.4 22H1.64l7.01-8.01L2 2h6.828l4.48 5.98L18.244 2zm-1.2 18h1.6L7.08 4H5.4l11.644 16z" />
+                  </svg>
+                </a>
               </div>
             </div>
+
           </div>
 
           {/* Copyright */}
-          <div className="pt-8 border-t border-gray-900/50 text-center">
+          <div className="pt-3 border-t border-gray-900/50 text-center">
             <p className="text-sm text-gray-500">
               {t('footer.copyright')}
             </p>

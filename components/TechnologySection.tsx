@@ -4,6 +4,9 @@ import { motion } from 'framer-motion'
 import { useRef } from 'react'
 import Layout from './Layout'
 import { staggerContainer, fadeInUp } from '@/lib/animations'
+import VideoFrameCapture from './VideoFrameCapture'
+import GlitchLinesAnimation from './GlitchLinesAnimation'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface TechCard {
   title: string
@@ -17,23 +20,24 @@ const techCards: TechCard[] = [
     title: 'System',
     subtitle: 'Real-time',
     sectionId: 'system',
-    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop',
+    imageUrl: '/Image_system_tech.png',
   },
   {
     title: 'Moderation',
     subtitle: 'Safety',
     sectionId: 'moderation',
-    imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop',
+    imageUrl: '/moderation.jpeg',
   },
   {
     title: 'Style',
     subtitle: 'Aesthetics',
     sectionId: 'style',
-    imageUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&h=400&fit=crop',
+    imageUrl: '/Image_style_tech.png',
   },
 ]
 
 export default function TechnologySection() {
+  const { t, language } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
   const cardsContainerRef = useRef<HTMLDivElement>(null)
   
@@ -90,8 +94,10 @@ export default function TechnologySection() {
     <section 
       ref={sectionRef}
       id="technology" 
-      className="min-h-screen flex items-center py-24 lg:py-32 snap-start snap-normal scroll-mt-[66px]"
+      className="h-[100svh] flex items-center py-6 sm:py-8 lg:py-12 snap-start snap-normal scroll-mt-[66px] overflow-hidden"
     >
+      {/* Animation de lignes avec glitch sur la droite */}
+      <GlitchLinesAnimation zIndex={5} />
       <Layout>
         <motion.div 
           className="space-y-16"
@@ -101,15 +107,24 @@ export default function TechnologySection() {
           viewport={{ once: true, amount: 0.3 }}
         >
           <motion.div 
-            className="text-center max-w-3xl mx-auto"
+            className="text-center max-w-4xl mx-auto"
             variants={fadeInUp}
           >
-            <h2 className="heading-section mb-8 tracking-[0.08em] font-medium">
-              Technology
+            <h2 className="heading-section mb-8">
+              {t('tech.title')}
             </h2>
-            <p className="body-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              Notre plateforme combine intelligence artificielle, traitement du signal
-              et design génératif pour créer des expériences visuelles uniques en temps réel.
+            <p className="text-base md:text-lg text-gray-300 max-w-5xl mx-auto leading-relaxed text-center w-full break-words">
+              {(() => {
+                const lines = t('tech.description').split('\n')
+                return lines.map((line, index) => (
+                  <span
+                    key={index}
+                    className={`block w-full text-center ${language === 'fr' ? 'whitespace-nowrap' : ''}`}
+                  >
+                    {line}
+                  </span>
+                ))
+              })()}
             </p>
           </motion.div>
 
@@ -122,7 +137,7 @@ export default function TechnologySection() {
                 key={index}
                 custom={index}
                 onClick={() => scrollToSection(card.sectionId)}
-                className="technology-card block w-full text-left bg-bg-card border border-white/15 p-5 lg:p-6 cursor-pointer relative overflow-hidden group"
+                className="technology-card block w-full text-left bg-bg-card border border-white/15 p-4 sm:p-5 lg:p-6 cursor-pointer relative overflow-hidden group"
                 variants={cardVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -140,7 +155,7 @@ export default function TechnologySection() {
               >
                 {/* Image thumbnail */}
                 <motion.div 
-                  className="relative mb-4 overflow-hidden aspect-video technology-card-image-wrapper"
+                  className="relative mb-3 sm:mb-4 overflow-hidden aspect-video technology-card-image-wrapper"
                   whileHover={{
                     scale: 1.08,
                     y: -8,
@@ -150,18 +165,30 @@ export default function TechnologySection() {
                     },
                   }}
                 >
-                  <motion.img
-                    src={card.imageUrl}
-                    alt={card.title}
-                    className="w-full h-full object-cover technology-card-image"
-                    whileHover={{
-                      filter: 'saturate(1.06) contrast(1.08)',
-                      transition: {
-                        duration: 0.3,
+                  {(card.imageUrl.endsWith('.MOV') || card.imageUrl.endsWith('.mov')) ? (
+                    <VideoFrameCapture
+                      videoSrc={card.imageUrl}
+                      alt={card.title}
+                      className="w-full h-full object-cover technology-card-image"
+                    />
+                  ) : (
+                    <motion.img
+                      src={card.imageUrl}
+                      alt={card.title}
+                      className={`w-full h-full object-cover technology-card-image ${
+                        card.sectionId === 'moderation'
+                          ? 'object-right object-bottom scale-150 origin-bottom-right'
+                          : ''
+                      }`}
+                      whileHover={{
+                        filter: 'saturate(1.06) contrast(1.08)',
+                        transition: {
+                          duration: 0.3,
                           ease: [0.25, 0.46, 0.45, 0.94] as const,
-                      },
-                    }}
-                  />
+                        },
+                      }}
+                    />
+                  )}
                 </motion.div>
                 {/* Title and Subtitle container */}
                 <motion.div
@@ -177,12 +204,22 @@ export default function TechnologySection() {
                   }}
                 >
                   {/* Title */}
-                  <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-white/85 mb-1">
-                    {card.title}
+                  <h3 className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.18em] text-white/85 mb-1">
+                    {language === 'fr' && card.title === 'System'
+                      ? 'Système'
+                      : language === 'fr' && card.title === 'Moderation'
+                        ? 'Modération'
+                        : card.title}
                   </h3>
                   {/* Subtitle */}
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-white/40">
-                    {card.subtitle}
+                  <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-white/40">
+                    {card.title === 'System'
+                      ? (language === 'fr' ? 'Modalités' : 'Modalities')
+                      : card.title === 'Moderation'
+                        ? (language === 'fr' ? 'Contrôle' : 'Control')
+                        : card.title === 'Style'
+                          ? (language === 'fr' ? 'Esthétique' : 'Aesthetics')
+                          : card.subtitle}
                   </p>
                 </motion.div>
               </motion.button>

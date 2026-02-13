@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 const navItems = [
-  { labelKey: 'nav.live', href: '#hero' },
   { labelKey: 'nav.technology', href: '#technology' },
   { labelKey: 'nav.gallery', href: '#gallery' },
   { labelKey: 'nav.contact', href: '#contact' },
@@ -273,20 +272,24 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-bg-global/80 backdrop-blur-md border-b border-gray-900/50">
       <div className="w-full px-6 sm:px-8 lg:px-12 relative">
-        <div className="flex items-center justify-between h-16 w-full">
-          {/* Language toggle button - Left */}
-          <motion.button
-            onClick={toggleLanguage}
-            className="uppercase tracking-[0.2em] text-white text-sm transition-all duration-300 hover:text-white/80 focus:outline-none focus:text-white/80"
+        <div className="flex items-center h-16 w-full">
+          {/* Portal - Left */}
+          <motion.a
+            href="#hero"
+            onClick={(e) => handleClick(e, '#hero')}
+            className={`uppercase tracking-[0.2em] text-white transition-all duration-300 hover:text-white/80 focus:outline-none focus:text-white/80 ${
+              activeSection === 'hero'
+                ? 'text-base md:text-lg font-bold nav-glitch-active'
+                : 'text-sm'
+            }`}
             whileHover={{ y: -2 }}
             transition={{ duration: 0.2 }}
-            aria-label={`Switch to ${language === 'fr' ? 'English' : 'Français'}`}
           >
-            {language === 'fr' ? 'EN' : 'FR'}
-          </motion.button>
-          
-          {/* Navigation items - Right */}
-          <div className="flex items-center gap-6 lg:gap-8">
+            Portal
+          </motion.a>
+
+          {/* Navigation items */}
+          <div className="flex items-center gap-6 lg:gap-8 ml-auto mr-6">
             {navItems.map((item) => {
               const sectionId = item.href.substring(1) // Remove #
               const isActive = activeSection === sectionId
@@ -309,6 +312,17 @@ export default function Navbar() {
               )
             })}
           </div>
+
+          {/* Language toggle - Right */}
+          <motion.button
+            onClick={toggleLanguage}
+            className="uppercase tracking-[0.2em] text-black text-sm transition-all duration-300 bg-white px-3 py-1.5 hover:bg-white/90 focus:outline-none focus:text-black"
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
+            aria-label={`Switch to ${language === 'fr' ? 'English' : 'Français'}`}
+          >
+            {language === 'fr' ? 'EN' : 'FR'}
+          </motion.button>
         </div>
 
         {/* Barre de progression globale sous la navbar */}

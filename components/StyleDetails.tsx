@@ -2,8 +2,16 @@
 
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
+import GlitchLinesAnimation from './GlitchLinesAnimation'
 
-const VIDEO_SOURCES = ['/video1zoe.mov', '/video2zoe.mov', '/video3zoe.mov']
+const VIDEO_SOURCES = [
+  '/Lora1.mp4',
+  '/Lora2.mp4',
+  '/Lora3.mp4',
+  '/Lora4.mp4',
+  '/Lora5.mp4',
+  '/Lora6.mp4',
+]
 
 export default function StyleDetails() {
   const { t } = useLanguage()
@@ -61,9 +69,11 @@ export default function StyleDetails() {
   return (
     <section
       id="style"
-      className="min-h-screen flex flex-col justify-center items-center py-10 lg:py-14 snap-start snap-always scroll-mt-[66px]"
+      className="h-[100svh] flex flex-col justify-center items-center py-8 lg:py-10 snap-start snap-always scroll-mt-[66px] overflow-hidden"
     >
-      <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      {/* Animation de lignes avec glitch sur la droite */}
+      <GlitchLinesAnimation zIndex={5} />
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <motion.div
           className="w-full max-w-6xl mx-auto flex flex-col gap-8 lg:gap-10"
           initial="hidden"
@@ -75,12 +85,6 @@ export default function StyleDetails() {
             className="flex flex-col gap-3 max-w-xl"
             variants={textContainerVariants}
           >
-            <motion.p
-              className="text-[11px] uppercase tracking-[0.2em] text-white/50"
-              variants={textItemVariants}
-            >
-              {t('style.aesthetics')}
-            </motion.p>
             <motion.h2
               className="text-[40px] md:text-[56px] font-semibold tracking-tight text-white"
               variants={textItemVariants}
@@ -103,7 +107,7 @@ export default function StyleDetails() {
             {VIDEO_SOURCES.map((src, index) => (
               <motion.div
                 key={src}
-                className="w-full bg-black overflow-hidden"
+                className="w-full overflow-hidden border-0 outline-none"
                 variants={videoVariants}
                 whileHover={{
                   scale: 1.05,
@@ -120,7 +124,7 @@ export default function StyleDetails() {
                     muted
                     loop
                     playsInline
-                    className="w-full h-full object-contain"
+                    className="block w-full h-full object-cover border-0 outline-none"
                   />
                 </div>
               </motion.div>

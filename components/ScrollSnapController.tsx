@@ -13,10 +13,10 @@ import { useEffect, useRef } from 'react'
  */
 
 // Configuration constants - Tune these for feel:
-const WHEEL_THRESHOLD = 80 // Accumulated deltaY required to trigger navigation
-const SCROLL_DURATION = 800 // Animation duration in milliseconds (constant)
+const WHEEL_THRESHOLD = 20 // Require a small, intentional scroll
+const SCROLL_DURATION = 800 // Slower for smoother, less abrupt snap
 const NAVBAR_HEIGHT = 66 // Navbar height in pixels for offset calculation
-const MIN_DELTA = 2 // Ignore wheel events smaller than this (prevents noise)
+const MIN_DELTA = 4 // Ignore tiny jitters
 
 export default function ScrollSnapController() {
   const sectionsRef = useRef<HTMLElement[]>([])
@@ -31,6 +31,8 @@ export default function ScrollSnapController() {
   // Wheel accumulation state
   const deltaAccumulatorRef = useRef(0)
   const lastDirectionRef = useRef<'up' | 'down' | null>(null)
+  const wheelLockRef = useRef(false)
+  const wheelLockTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     // A) Gather sections robustly
@@ -148,7 +150,7 @@ export default function ScrollSnapController() {
     }
 
     // Smooth scroll to target position with cancellation support
-    const smoothScrollTo = (targetY: number, duration: number) => {
+    const smoothScrollTo = (targetY: number, duration: number, onComplete?: () => void) => {
       // Cancel any existing animation
       cancelAnimation()
 
@@ -162,6 +164,13 @@ export default function ScrollSnapController() {
         isAnimatingRef.current = false
         return
       }
+
+      // Temporarily disable CSS snap and smooth behavior to avoid jitter
+      const root = document.documentElement
+      const previousSnapType = root.style.scrollSnapType
+      const previousScrollBehavior = root.style.scrollBehavior
+      root.style.scrollSnapType = 'none'
+      root.style.scrollBehavior = 'auto'
 
       // Store animation state
       isAnimatingRef.current = true
@@ -187,12 +196,16 @@ export default function ScrollSnapController() {
         } else {
           // Ensure we end exactly at target
           window.scrollTo(0, targetY)
+          // Restore CSS snap after animation completes
+          root.style.scrollSnapType = previousSnapType || ''
+          root.style.scrollBehavior = previousScrollBehavior || ''
           // Animation complete
           isAnimatingRef.current = false
           animationStartTimeRef.current = null
           animationStartYRef.current = null
           animationTargetYRef.current = null
           animationFrameRef.current = null
+          onComplete?.()
         }
       }
 
@@ -215,7 +228,7 @@ export default function ScrollSnapController() {
       }
     }
 
-    // C) Wheel handling with proper accumulation and commit logic
+    // C) Wheel handling: jump to next/prev section on first scroll intent
     const handleWheel = (e: WheelEvent) => {
       // Ignore horizontal scroll
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return
@@ -223,11 +236,12 @@ export default function ScrollSnapController() {
       // Ignore if Ctrl/Meta is held (zoom gesture)
       if (e.ctrlKey || e.metaKey) return
 
-      // CRITICAL: If inside no-snap zone, return immediately WITHOUT preventDefault
-      if (isInsideNoSnap(e.target)) return
-
-      // D) Lock/cooldown: if animating, ignore wheel events (return early, no preventDefault)
+      // D) Lock/cooldown: if animating or locked, ignore wheel events
       if (isAnimatingRef.current) {
+        return
+      }
+      if (wheelLockRef.current) {
+        e.preventDefault()
         return
       }
 
@@ -237,65 +251,63 @@ export default function ScrollSnapController() {
       // Determine direction
       const direction: 'up' | 'down' = e.deltaY > 0 ? 'down' : 'up'
 
-      // If direction changed, reset accumulator
-      if (lastDirectionRef.current !== null && lastDirectionRef.current !== direction) {
-        deltaAccumulatorRef.current = 0
-      }
+      // If inside no-snap, allow vertical navigation from gallery cards
+      if (isInsideNoSnap(e.target)) {
+        const targetEl = e.target instanceof Element ? e.target : null
+        const isInGallery = !!targetEl?.closest('#gallery')
+        const isInNoSnap = !!targetEl?.closest('[data-no-snap]')
 
-      // Update direction
-      lastDirectionRef.current = direction
-
-      // Accumulate delta
-      deltaAccumulatorRef.current += Math.abs(e.deltaY)
-
-      // Check if threshold reached
-      if (Math.abs(deltaAccumulatorRef.current) >= WHEEL_THRESHOLD) {
-        // Determine direction from accumulated delta
-        const commitDirection: 'up' | 'down' = deltaAccumulatorRef.current > 0 ? 'down' : 'up'
-        
-        // Get target section
-        const targetSection = getTargetSection(commitDirection)
-
-        // CRITICAL: Only preventDefault and navigate if we have a valid target
-        if (targetSection) {
-          // Check if target is different from current section
-          const currentIndex = getCurrentSectionIndex()
-          const targetIndex = sectionsRef.current.indexOf(targetSection)
-          
-          if (targetIndex !== currentIndex) {
-            // Prevent default scroll behavior
-            e.preventDefault()
-            e.stopPropagation()
-
-            // Cancel any ongoing animation
-            cancelAnimation()
-
-            // Navigate to target
-            const targetY = targetSection.offsetTop - NAVBAR_HEIGHT
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-            if (prefersReducedMotion) {
-              window.scrollTo(0, targetY)
-              isAnimatingRef.current = false
-            } else {
-              smoothScrollTo(targetY, SCROLL_DURATION)
-            }
-
-            // Reset accumulator
-            deltaAccumulatorRef.current = 0
-            lastDirectionRef.current = null
-          } else {
-            // Same section, reset accumulator
-            deltaAccumulatorRef.current = 0
-            lastDirectionRef.current = null
-          }
+        if (isInGallery && isInNoSnap) {
+          // Allow vertical snap even when pointer is on cards
         } else {
-          // No target section, reset accumulator and let native scroll happen
-          deltaAccumulatorRef.current = 0
-          lastDirectionRef.current = null
+          return
         }
       }
-      // If threshold not reached, continue accumulating (no preventDefault)
+
+      const targetSection = getTargetSection(direction)
+      if (!targetSection) {
+        deltaAccumulatorRef.current = 0
+        return
+      }
+
+      // Prevent native scroll to avoid initial jitter
+      e.preventDefault()
+      e.stopPropagation()
+
+      // Accumulate minimal delta to avoid accidental tiny jitters
+      deltaAccumulatorRef.current += Math.abs(e.deltaY)
+      if (deltaAccumulatorRef.current < WHEEL_THRESHOLD) return
+
+      const currentIndex = getCurrentSectionIndex()
+      const targetIndex = sectionsRef.current.indexOf(targetSection)
+      if (targetIndex === currentIndex) {
+        deltaAccumulatorRef.current = 0
+        return
+      }
+
+      // Jump directly to the next section
+      cancelAnimation()
+
+      const targetY = targetSection.offsetTop - NAVBAR_HEIGHT
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      if (prefersReducedMotion) {
+        window.scrollTo(0, targetY)
+        isAnimatingRef.current = false
+      } else {
+        smoothScrollTo(targetY, SCROLL_DURATION)
+      }
+
+      // Lock wheel until the snap completes to avoid skipping multiple sections
+      wheelLockRef.current = true
+      if (wheelLockTimeoutRef.current) {
+        clearTimeout(wheelLockTimeoutRef.current)
+      }
+      wheelLockTimeoutRef.current = setTimeout(() => {
+        wheelLockRef.current = false
+      }, SCROLL_DURATION + 250)
+
+      deltaAccumulatorRef.current = 0
     }
 
     // Handle keyboard navigation
@@ -361,6 +373,10 @@ export default function ScrollSnapController() {
       
       // Cancel any ongoing animation
       cancelAnimation()
+      if (wheelLockTimeoutRef.current) {
+        clearTimeout(wheelLockTimeoutRef.current)
+        wheelLockTimeoutRef.current = null
+      }
     }
   }, [])
 

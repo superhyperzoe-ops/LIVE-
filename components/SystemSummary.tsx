@@ -4,6 +4,8 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { staggerContainer, fadeInUp } from '@/lib/animations'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { getVideoUrl } from '@/lib/videos'
+import GlitchLinesAnimation from './GlitchLinesAnimation'
 
 type SystemRowProps = {
   title: string
@@ -13,6 +15,13 @@ type SystemRowProps = {
   href: string
   direction?: 'left' | 'right'
   delay?: number
+}
+
+const getVideoType = (src: string) => {
+  const lower = src.toLowerCase()
+  if (lower.endsWith('.mp4')) return 'video/mp4'
+  if (lower.endsWith('.mov')) return 'video/quicktime'
+  return undefined
 }
 
 const SystemRow: React.FC<SystemRowProps> = ({ title, label, description, imageSrc, href, direction, delay = 0 }) => {
@@ -80,11 +89,15 @@ const SystemRow: React.FC<SystemRowProps> = ({ title, label, description, imageS
           transition={{ duration: 0.4, ease: 'easeOut' }}
         >
           <video
-            src={imageSrc}
+            autoPlay
+            loop
             muted
             playsInline
+            preload="auto"
             className="h-full w-full object-cover"
-          />
+          >
+            <source src={imageSrc} type={getVideoType(imageSrc)} />
+          </video>
         </motion.div>
       </div>
     </motion.article>
@@ -95,7 +108,9 @@ export default function SystemSummary() {
   const { t } = useLanguage()
   
   return (
-    <section id="system" className="min-h-screen w-full flex flex-col justify-center items-center py-16 snap-start snap-always scroll-mt-[66px] bg-black">
+    <section id="system" className="h-[100svh] w-full flex flex-col justify-center items-center py-10 lg:py-12 snap-start snap-always scroll-mt-[66px] bg-black overflow-hidden">
+      {/* Animation de lignes avec glitch sur la droite */}
+      <GlitchLinesAnimation zIndex={5} />
       <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="w-full max-w-6xl mx-auto flex flex-col gap-4 lg:gap-5">
           <div className="space-y-4">
@@ -110,7 +125,7 @@ export default function SystemSummary() {
                 title={t('system.speechToVideo')}
                 label={t('system.mode01')}
                 description={t('system.speechDescription')}
-                imageSrc="/speech.MOV"
+                imageSrc="/Vidéof/speech_final.mp4"
                 href="#speech-detail"
                 direction="left"
                 delay={0.1}
@@ -119,7 +134,7 @@ export default function SystemSummary() {
                 title={t('system.textToVideo')}
                 label={t('system.mode02')}
                 description={t('system.textDescription')}
-                imageSrc="/text.MOV"
+                imageSrc="/Vidéof/text_final.mp4"
                 href="#text-detail"
                 direction="right"
                 delay={0.2}

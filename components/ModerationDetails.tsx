@@ -1,12 +1,16 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext'
+import GlitchLinesAnimation from './GlitchLinesAnimation'
 import { staggerContainer, fadeInUp, imageZoom } from '@/lib/animations'
 
 export default function ModerationDetails() {
+  const { t } = useLanguage()
   const prefersReducedMotion = useReducedMotion()
   const sectionRef = useRef<HTMLElement | null>(null)
+  const [activeLevel, setActiveLevel] = useState<'natural' | 'automatic' | 'human'>('natural')
   
   // Check if section is in view - reliable trigger (replay on every entry)
   const inView = useInView(sectionRef, {
@@ -15,10 +19,6 @@ export default function ModerationDetails() {
     margin: '-50px',
   })
   
-  // Split text into words for word-by-word reveal
-  const text = "When images are generated from text, the Live comes with a built-in moderation system to ensure control is maintained."
-  const words = text.split(' ')
-
   // Variants for text container (from left)
   const textContainerVariants = {
     hidden: prefersReducedMotion
@@ -135,10 +135,69 @@ export default function ModerationDetails() {
     <section 
       ref={sectionRef}
       id="moderation" 
-      className="min-h-screen flex flex-col justify-center items-center py-16 snap-start snap-always scroll-mt-[66px]"
+      className="relative min-h-[100svh] flex flex-col justify-start items-center snap-start snap-always scroll-mt-[66px] overflow-hidden"
     >
-      <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="space-y-12 flex flex-col">
+      {/* Image de fond - couvre toute la section */}
+      <motion.div 
+        className="absolute inset-0 w-full h-full"
+        variants={imageContainerVariants}
+        initial="hidden"
+        animate={inView ? 'show' : 'hidden'}
+        style={{
+          backgroundImage: 'url(/moderation.jpeg)',
+          backgroundSize: '85%',
+          backgroundPosition: 'right 40%',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        {/* Overlay sombre pour la lisibilité */}
+        <div className="absolute inset-0 bg-black/30 z-10" />
+        
+        {/* Light sweep */}
+        {!prefersReducedMotion && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none z-15"
+            style={{
+              background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%)',
+            }}
+            animate={{
+              x: ['-100%', '200%'],
+              opacity: [0, 0.2, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              repeatDelay: 10,
+              ease: 'easeInOut',
+            }}
+          />
+        )}
+        
+        {/* Focus effect */}
+        {!prefersReducedMotion && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none z-20"
+            style={{
+              background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 60%)',
+            }}
+            animate={{
+              opacity: [0.1, 0.25, 0.1],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        )}
+      </motion.div>
+
+      {/* Animation de lignes avec glitch sur la droite */}
+      <GlitchLinesAnimation zIndex={15} />
+
+      {/* Contenu en overlay */}
+      <div className="relative z-30 w-full px-6 sm:px-8 lg:px-12 pt-10 lg:pt-14 pb-12">
+        <div className="flex flex-col min-h-[100svh] max-w-6xl mx-auto">
           {/* Title */}
           <motion.h2 
             className="text-5xl lg:text-6xl font-bold text-center text-white"
@@ -148,166 +207,73 @@ export default function ModerationDetails() {
           >
             Moderation
           </motion.h2>
-
-          {/* Keyword cards */}
-          <motion.ul 
-            className="flex flex-wrap justify-center gap-3 mb-8"
+          
+          {/* Intro */}
+          <motion.p
+            className="mt-4 text-base sm:text-lg text-gray-200 leading-relaxed text-center max-w-3xl mx-auto"
+            variants={paragraphVariants}
+            initial="hidden"
+            animate={inView ? 'show' : 'hidden'}
+          >
+            {t('moderation.intro')}
+          </motion.p>
+          {/* Keyword buttons */}
+          <motion.div 
+            className="mt-6 flex flex-wrap justify-center gap-3 sm:gap-4 text-center"
             variants={keywordContainerVariants}
             initial="hidden"
             animate={inView ? 'show' : 'hidden'}
           >
-            {['Duration Control', 'Automatic moderation', 'Operator controls'].map((keyword, index) => (
-              <motion.li
-                key={keyword}
+            {[
+              { key: 'natural', label: t('moderation.keyword1') },
+              { key: 'automatic', label: t('moderation.keyword2') },
+              { key: 'human', label: t('moderation.keyword3') },
+            ].map((keyword) => (
+              <motion.button
+                key={keyword.key}
+                type="button"
+                onClick={() => setActiveLevel(keyword.key as 'natural' | 'automatic' | 'human')}
                 variants={keywordItemVariants}
-                className="px-4 py-2 rounded-md border border-white/10 bg-white/5 text-xs uppercase tracking-[0.15em] text-white/80 font-medium"
+                whileHover={{ scale: 1.05 }}
+                className={`px-4 py-2 border text-[11px] sm:text-xs uppercase tracking-[0.18em] font-medium transition-colors hover:bg-white/20 hover:text-white ${
+                  activeLevel === keyword.key
+                    ? 'border-white/40 bg-white/15 text-white'
+                    : 'border-white/10 bg-white/5 text-white/80'
+                }`}
               >
-                {keyword}
-              </motion.li>
+                {keyword.label}
+              </motion.button>
             ))}
-          </motion.ul>
+          </motion.div>
 
-          {/* Grid: Text left, Image right */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left: Text content */}
-            <motion.div 
-              className="space-y-6"
-              variants={textContainerVariants}
-              initial="hidden"
-              animate={inView ? 'show' : 'hidden'}
-            >
-              {/* Text with word-by-word reveal */}
-              <motion.p 
-                className="text-lg text-gray-300 leading-relaxed"
-              >
-                {words.map((word, index) => (
-                  <motion.span
-                    key={index}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: 0.5 + index * 0.05,
-                      ease: [0.22, 1, 0.36, 1] as const,
-                    }}
-                    className="inline-block mr-1.5"
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-              </motion.p>
-
-              {/* Text content without bullet points */}
+          {/* Text content */}
+          <motion.div 
+            className="mt-6 lg:mt-8 w-full max-w-[680px] text-center mx-auto space-y-4 lg:space-y-5"
+            variants={textContainerVariants}
+            initial="hidden"
+            animate={inView ? 'show' : 'hidden'}
+          >
+              {/* Active level content */}
               <motion.div 
-                className="space-y-4"
+                className="space-y-3 lg:space-y-4"
                 variants={paragraphsContainerVariants}
               >
                 <motion.p 
-                  className="text-lg text-gray-300 leading-relaxed"
+                  className="text-base sm:text-lg text-gray-200 leading-relaxed"
                   variants={paragraphVariants}
                 >
-                  Natural AI Training moderation
-                </motion.p>
-                <motion.p 
-                  className="text-lg text-gray-300 leading-relaxed"
-                  variants={paragraphVariants}
-                >
-                  Automatic moderation with ban list
-                </motion.p>
-                <motion.p 
-                  className="text-lg text-gray-300 leading-relaxed"
-                  variants={paragraphVariants}
-                >
-                  Human moderation thought an interface
-                </motion.p>
-                <motion.p 
-                  className="text-lg text-gray-300 leading-relaxed"
-                  variants={paragraphVariants}
-                >
-                  The human operator can also inject specific prompts, change the duration of prompt display and prioritize some prompts
+                  {activeLevel === 'natural'
+                    ? t('moderation.level1')
+                    : activeLevel === 'automatic'
+                      ? t('moderation.level2')
+                      : t('moderation.level3')}
                 </motion.p>
               </motion.div>
             </motion.div>
-
-            {/* Right: Image */}
-            <motion.div 
-              className="w-full flex justify-center lg:justify-end relative"
-              variants={imageContainerVariants}
-              initial="hidden"
-              animate={inView ? 'show' : 'hidden'}
-            >
-              <motion.img
-                src="/Modération.png"
-                alt="Moderation dashboard"
-                className="max-w-full max-h-[500px] w-auto h-auto object-contain rounded-xl relative z-10"
-                whileHover={!prefersReducedMotion ? {
-                  scale: 1.08,
-                  rotate: 2,
-                  transition: {
-                    duration: 0.5,
-                    ease: [0.25, 0.46, 0.45, 0.94] as const,
-                  },
-                } : {}}
-                animate={!prefersReducedMotion ? {
-                  x: [0, -8, 0],
-                } : {}}
-                transition={!prefersReducedMotion ? {
-                  duration: 14,
-                  repeat: Infinity,
-                  repeatType: 'mirror',
-                  ease: 'easeInOut',
-                } : { duration: 0.3 }}
-              />
-              {/* Light sweep */}
-              {!prefersReducedMotion && (
-                <motion.div
-                  className="absolute inset-0 pointer-events-none z-15"
-                  style={{
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%)',
-                  }}
-                  animate={{
-                    x: ['-100%', '200%'],
-                    opacity: [0, 0.2, 0],
-                  }}
-                  transition={{
-                    duration: 15,
-                    repeat: Infinity,
-                    repeatDelay: 10,
-                    ease: 'easeInOut',
-                  }}
-                />
-              )}
-              {/* Focus effect */}
-              <motion.div
-                className="absolute inset-0 pointer-events-none z-25"
-                style={{
-                  background: 'radial-gradient(circle, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.3) 100%)',
-                }}
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              {!prefersReducedMotion && (
-                <motion.div
-                  className="absolute inset-0 rounded-xl pointer-events-none z-20"
-                  style={{
-                    background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 60%)',
-                  }}
-                  animate={{
-                    opacity: [0.1, 0.25, 0.1],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                />
-              )}
-            </motion.div>
-          </div>
         </div>
       </div>
     </section>
   )
 }
+
 

@@ -92,14 +92,14 @@ export default function ScrollSnapEnforcer() {
           clearTimeout(scrollTimeoutRef.current)
         }
 
-        // After scroll stops (debounced 150ms), allow snapping
-        scrollTimeoutRef.current = setTimeout(() => {
+    // After scroll stops (debounced 250ms), allow snapping
+    scrollTimeoutRef.current = setTimeout(() => {
           isUserScrollingRef.current = false
           // Small delay before snapping to ensure scroll has fully stopped
           setTimeout(() => {
             snapToClosest()
-          }, 50)
-        }, 150)
+      }, 120)
+    }, 250)
       }
     }
 
@@ -112,14 +112,14 @@ export default function ScrollSnapEnforcer() {
         clearTimeout(scrollTimeoutRef.current)
       }
 
-      // After wheel events stop (debounced 200ms for trackpad inertia)
+    // After wheel events stop (debounced 260ms for trackpad inertia)
       scrollTimeoutRef.current = setTimeout(() => {
         isUserScrollingRef.current = false
         // Wait a bit more for scroll inertia to settle
         setTimeout(() => {
           snapToClosest()
-        }, 100)
-      }, 200)
+      }, 140)
+    }, 260)
     }
 
     // Handle keyboard navigation (preserve accessibility)

@@ -3,6 +3,8 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { getVideoUrl } from '@/lib/videos'
+import GlitchLinesAnimation from './GlitchLinesAnimation'
 
 export default function SystemDetails() {
   const { t } = useLanguage()
@@ -140,8 +142,10 @@ export default function SystemDetails() {
     <section 
       ref={sectionRef}
       id="speech-detail" 
-      className="min-h-screen flex flex-col justify-center items-center py-16 snap-start snap-always scroll-mt-[66px] relative"
+      className="h-[100svh] flex flex-col justify-center items-center py-10 lg:py-12 snap-start snap-always scroll-mt-[66px] relative overflow-hidden"
     >
+      {/* Animation de lignes avec glitch sur la droite */}
+      <GlitchLinesAnimation zIndex={5} />
       <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 lg:gap-8">
           {/* Two-column layout with premium scroll reveal animations */}
@@ -232,7 +236,7 @@ export default function SystemDetails() {
               )}
 
               <video
-                src="/speech.MOV"
+                src={getVideoUrl('speech')}
                 autoPlay
                 muted
                 loop

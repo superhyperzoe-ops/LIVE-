@@ -3,6 +3,8 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { getVideoUrl } from '@/lib/videos'
+import GlitchLinesAnimation from './GlitchLinesAnimation'
 
 export default function TextToVideoDetails() {
   const { t } = useLanguage()
@@ -102,8 +104,11 @@ export default function TextToVideoDetails() {
     <section 
       ref={sectionRef}
       id="text-detail" 
-      className="min-h-screen flex flex-col justify-center items-center py-16 snap-start snap-always scroll-mt-[66px] relative overflow-visible"
+      className="h-[100svh] flex flex-col justify-center items-center py-10 lg:py-12 snap-start snap-always scroll-mt-[66px] relative overflow-hidden"
     >
+      {/* Animation de lignes avec glitch sur la droite */}
+      <GlitchLinesAnimation zIndex={5} />
+
       <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 lg:gap-8">
           {/* Two-column layout with premium scroll reveal animations */}
@@ -117,22 +122,40 @@ export default function TextToVideoDetails() {
               animate={inView ? 'show' : 'hidden'}
               style={{
                 y: prefersReducedMotion ? 0 : videoParallax,
+                minHeight: '400px',
+                height: '100%',
+                width: '100%',
               }}
             >
               <video
-                src="/text.MOV"
+                src="/Vidéof/text_final.mp4"
                 autoPlay
                 muted
                 loop
                 playsInline
-                className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+                preload="auto"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+                style={{ 
+                  minHeight: '400px',
+                  width: '100%',
+                  height: '100%',
+                }}
+                onError={(e) => {
+                  console.error('Text video error:', e)
+                  console.error('Video src:', getVideoUrl('text'))
+                  console.error('Video element:', e.currentTarget)
+                }}
+                onLoadedData={(e) => {
+                  console.log('Text video loaded:', getVideoUrl('text'))
+                  console.log('Video dimensions:', e.currentTarget.videoWidth, 'x', e.currentTarget.videoHeight)
+                }}
               />
             </motion.div>
 
             {/* Right: Title + Description */}
             <motion.div 
               ref={textContainerRef}
-              className="flex flex-col gap-5 max-w-xl relative"
+              className="flex flex-col gap-5 max-w-2xl relative"
               variants={textContainerVariants}
               initial="hidden"
               animate={inView ? 'show' : 'hidden'}
@@ -173,6 +196,25 @@ export default function TextToVideoDetails() {
                     {t('text.para2')}
                   </motion.p>
                 </motion.div>
+
+                {/* Bullet list */}
+                <motion.ul
+                  className="mt-3 space-y-2 text-sm md:text-base text-white/70 leading-relaxed max-w-3xl"
+                  variants={paragraphsVariants}
+                >
+                  <motion.li className="flex gap-2" variants={textItemVariants}>
+                    <span className="mt-[7px] h-[3px] w-3 bg-white/60 flex-shrink-0" />
+                    <span>{t('text.bullet1')}</span>
+                  </motion.li>
+                <motion.li className="flex gap-2" variants={textItemVariants}>
+                    <span className="mt-[7px] h-[3px] w-3 bg-white/60 flex-shrink-0" />
+                  <span className="whitespace-nowrap">{t('text.bullet2')}</span>
+                  </motion.li>
+                  <motion.li className="flex gap-2" variants={textItemVariants}>
+                    <span className="mt-[7px] h-[3px] w-3 bg-white/60 flex-shrink-0" />
+                    <span>{t('text.bullet3')}</span>
+                  </motion.li>
+                </motion.ul>
               </div>
             </motion.div>
           </div>

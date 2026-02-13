@@ -2,9 +2,12 @@
 
 import { useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { staggerContainer, fadeInUp, scaleIn, clipReveal } from '@/lib/animations'
+const HERO_VIDEO_SRC = '/Vidéof/accueil_final.mp4'
 
 export default function Hero() {
+  const { t } = useLanguage()
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 })
@@ -38,7 +41,7 @@ export default function Hero() {
   return (
     <section 
       id="hero" 
-      className="relative min-h-screen w-full max-w-full flex items-center pt-16 snap-start snap-always scroll-mt-0 overflow-hidden"
+      className="relative h-[100svh] w-full max-w-full flex items-center pt-16 snap-start snap-always scroll-mt-0 overflow-hidden"
     >
       {/* Background video */}
       <motion.div
@@ -50,13 +53,20 @@ export default function Hero() {
         }}
       >
         <video
-          src="/Vidéo_Accueil_Live.MOV"
+          src={HERO_VIDEO_SRC}
           autoPlay
           loop
           muted
           playsInline
           preload="auto"
           className="w-full h-full object-cover"
+          onError={(e) => {
+            console.error('Hero video error:', e)
+            console.error('Video src:', HERO_VIDEO_SRC)
+          }}
+          onLoadedData={() => {
+            console.log('Hero video loaded:', HERO_VIDEO_SRC)
+          }}
         />
       </motion.div>
       
@@ -100,34 +110,25 @@ export default function Hero() {
             {/* LIVE title with kinetic reveal */}
             <div className="overflow-hidden">
               <motion.h1 
-                className="text-7xl lg:text-8xl font-bold text-white leading-none relative z-[11]"
+                className="text-7xl lg:text-8xl font-bold text-white leading-none relative z-[11] font-label text-left max-w-[28rem]"
                 variants={clipReveal}
                 initial="hidden"
                 animate="visible"
               >
-                LIVE
+                PORTAL
               </motion.h1>
             </div>
             
-            {/* Subtitle line-by-line */}
-            <div className="space-y-2 relative z-[11]">
+            {/* Subtitle */}
+            <div className="relative z-[11]">
               <motion.p 
-                className="text-lg lg:text-xl text-gray-300 leading-relaxed"
+                className="text-lg lg:text-xl text-gray-300 leading-relaxed max-w-[28rem]"
                 variants={fadeInUp}
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: 0.2 }}
               >
-                A technology that enables the real-time generation
-              </motion.p>
-              <motion.p 
-                className="text-lg lg:text-xl text-gray-300 leading-relaxed"
-                variants={fadeInUp}
-                initial="hidden"
-                animate="visible"
-                transition={{ delay: 0.35 }}
-              >
-                of a continuous video from written or spoken prompts.
+                {t('hero.descriptionLine1a')} {t('hero.descriptionLine1b')} {t('hero.descriptionLine2')}
               </motion.p>
             </div>
             <motion.div 
