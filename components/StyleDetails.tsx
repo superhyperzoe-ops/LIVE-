@@ -4,13 +4,13 @@ import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import GlitchLinesAnimation from './GlitchLinesAnimation'
 
-const VIDEO_SOURCES = [
-  '/videos/style/Lora1.mp4',
-  '/videos/style/Lora2.mp4',
-  '/videos/style/Lora3.mp4',
-  '/videos/style/Lora4.mp4',
-  '/videos/style/Lora5.mp4',
-  '/videos/style/Lora6.mp4',
+const IMAGE_SOURCES = [
+  '/Image_style_tech.png',
+  '/Image_system_tech.png',
+  '/moderation.jpeg',
+  '/aboutus.webp',
+  '/Image_style_tech.png',
+  '/Image_system_tech.png',
 ]
 
 export default function StyleDetails() {
@@ -69,7 +69,7 @@ export default function StyleDetails() {
   return (
     <section
       id="style"
-      className="h-[100svh] flex flex-col justify-center items-center py-8 lg:py-10 snap-start snap-always scroll-mt-[66px] overflow-hidden"
+      className="h-[100svh] flex flex-col justify-center items-center py-8 lg:py-10 scroll-mt-[66px] overflow-hidden"
     >
       {/* Animation de lignes avec glitch sur la droite */}
       <GlitchLinesAnimation zIndex={5} />
@@ -99,14 +99,14 @@ export default function StyleDetails() {
             </motion.p>
           </motion.div>
 
-          {/* Three equal 16:9 videos, side by side, with staggered slide-up animation */}
+          {/* Three equal 16:9 images, side by side, with staggered slide-up animation */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4"
             variants={videosContainerVariants}
           >
-            {VIDEO_SOURCES.map((src, index) => (
+            {IMAGE_SOURCES.map((src, index) => (
               <motion.div
-                key={src}
+                key={`${src}-${index}`}
                 className="w-full overflow-hidden border-0 outline-none"
                 variants={videoVariants}
                 whileHover={{
@@ -118,12 +118,9 @@ export default function StyleDetails() {
                 }}
               >
                 <div className="w-full aspect-video">
-                  <video
+                  <img
                     src={src}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
+                    alt={t('style.title')}
                     className="block w-full h-full object-cover border-0 outline-none"
                   />
                 </div>
@@ -135,4 +132,3 @@ export default function StyleDetails() {
     </section>
   )
 }
-

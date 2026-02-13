@@ -6,12 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "upload-videos": "node scripts/upload-videos-to-blob.mjs",
-    "extract-video-frame": "node scripts/extract-video-frame.mjs"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@vercel/blob": "^2.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.24",
     "next": "^14.2.5",

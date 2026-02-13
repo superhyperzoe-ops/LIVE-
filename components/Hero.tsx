@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { staggerContainer, fadeInUp, scaleIn, clipReveal } from '@/lib/animations'
-const HERO_VIDEO_SRC = '/videos/core/accueil_final.mp4'
+const HERO_IMAGE_SRC = '/Image_system_tech.png'
 
 export default function Hero() {
   const { t } = useLanguage()
@@ -41,9 +41,9 @@ export default function Hero() {
   return (
     <section 
       id="hero" 
-      className="relative h-[100svh] w-full max-w-full flex items-center pt-16 snap-start snap-always scroll-mt-0 overflow-hidden"
+      className="relative h-[100svh] w-full max-w-full flex items-center pt-16 scroll-mt-0 overflow-hidden"
     >
-      {/* Background video */}
+      {/* Background image */}
       <motion.div
         className="absolute top-0 left-0 w-full h-full z-0 overflow-hidden"
         style={{
@@ -52,21 +52,10 @@ export default function Hero() {
           scale: 1.1,
         }}
       >
-        <video
-          src={HERO_VIDEO_SRC}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
+        <img
+          src={HERO_IMAGE_SRC}
+          alt="Portal background"
           className="w-full h-full object-cover"
-          onError={(e) => {
-            console.error('Hero video error:', e)
-            console.error('Video src:', HERO_VIDEO_SRC)
-          }}
-          onLoadedData={() => {
-            console.log('Hero video loaded:', HERO_VIDEO_SRC)
-          }}
         />
       </motion.div>
       
@@ -234,4 +223,3 @@ export default function Hero() {
     </section>
   )
 }
-

@@ -135,7 +135,7 @@ export default function ModerationDetails() {
     <section 
       ref={sectionRef}
       id="moderation" 
-      className="relative min-h-[100svh] flex flex-col justify-start items-center snap-start snap-always scroll-mt-[66px] overflow-hidden"
+      className="relative min-h-[100svh] flex flex-col justify-start items-center scroll-mt-[66px] overflow-hidden"
     >
       {/* Image de fond - couvre toute la section */}
       <motion.div 
@@ -275,5 +275,4 @@ export default function ModerationDetails() {
     </section>
   )
 }
-
 

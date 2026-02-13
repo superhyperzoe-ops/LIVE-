@@ -56,7 +56,6 @@ export default function GallerySection() {
   const [mounted, setMounted] = useState(false)
 
   const handleTrackWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    // Let vertical wheel gestures bubble to enable scroll snap
     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       return
     }
@@ -243,7 +242,7 @@ export default function GallerySection() {
   // Render static content until mounted to avoid hydration mismatch
   if (!mounted) {
     return (
-      <section ref={(el) => { sectionRef.current = el }} id="gallery" className="h-[100svh] flex flex-col snap-start snap-always scroll-mt-[66px] py-4 sm:py-6 lg:py-8 overflow-hidden">
+      <section ref={(el) => { sectionRef.current = el }} id="gallery" className="h-[100svh] flex flex-col scroll-mt-[66px] py-4 sm:py-6 lg:py-8 overflow-hidden">
         {/* Animation de lignes avec glitch sur la droite */}
         <GlitchLinesAnimation zIndex={5} />
         <Layout>
@@ -265,8 +264,7 @@ export default function GallerySection() {
         <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-3 sm:py-4">
           <div
             ref={trackRef}
-            data-no-snap="true"
-            className="overflow-x-auto overflow-y-hidden scrollbar-hide cursor-grab active:cursor-grabbing snap-x snap-mandatory relative h-[32vh] sm:h-[40vh] md:h-[42vh]"
+            className="overflow-x-auto overflow-y-hidden scrollbar-hide cursor-grab active:cursor-grabbing relative h-[32vh] sm:h-[40vh] md:h-[42vh]"
             onWheel={handleTrackWheel}
             onMouseEnter={pauseAutoScroll}
             onMouseLeave={resumeAutoScroll}
@@ -288,27 +286,15 @@ export default function GallerySection() {
                 <button
                   key={item.id}
                   onClick={() => handleCardClick(item)}
-                className={`flex-shrink-0 snap-start text-left cursor-pointer group h-full ${index === galleryItems.length - 1 ? 'relative z-20' : ''}`}
+                className={`flex-shrink-0 text-left cursor-pointer group h-full ${index === galleryItems.length - 1 ? 'relative z-20' : ''}`}
                 >
                   <div className="relative overflow-hidden bg-bg-card shadow-lg group-hover:shadow-white/10 transition-all duration-300 h-full flex-1 min-w-[170px] sm:min-w-[210px] md:min-w-[240px] max-w-[280px]">
                     <div className="relative aspect-[9/16] h-full w-full">
-                      {item.mediaType === 'video' ? (
-                        <video
-                          src={item.mediaSrc}
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          preload="auto"
-                          className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
-                        />
-                      ) : (
-                        <img
-                          src={item.mediaSrc || item.imageSrc}
-                          alt={item.title}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
+                      <img
+                        src={item.mediaSrc}
+                        alt={title}
+                        className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-white transition-colors leading-tight">
@@ -358,7 +344,7 @@ export default function GallerySection() {
   }
 
   return (
-    <section ref={(el) => { sectionRef.current = el }} id="gallery" className="h-[100svh] flex flex-col snap-start snap-always scroll-mt-[66px] py-4 sm:py-6 lg:py-8 overflow-hidden">
+    <section ref={(el) => { sectionRef.current = el }} id="gallery" className="h-[100svh] flex flex-col scroll-mt-[66px] py-4 sm:py-6 lg:py-8 overflow-hidden">
       {/* Animation de lignes avec glitch sur la droite */}
       <GlitchLinesAnimation zIndex={5} />
       <Layout>
@@ -404,8 +390,7 @@ export default function GallerySection() {
       <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-3 sm:py-4">
         <motion.div
           ref={trackRef}
-          data-no-snap="true"
-          className="overflow-x-auto overflow-y-hidden scrollbar-hide cursor-grab active:cursor-grabbing snap-x snap-mandatory relative h-[32vh] sm:h-[40vh] md:h-[42vh]"
+          className="overflow-x-auto overflow-y-hidden scrollbar-hide cursor-grab active:cursor-grabbing relative h-[32vh] sm:h-[40vh] md:h-[42vh]"
           onWheel={handleTrackWheel}
           onMouseEnter={pauseAutoScroll}
           onMouseLeave={resumeAutoScroll}
@@ -433,7 +418,7 @@ export default function GallerySection() {
               <motion.button
                 key={item.id}
                 onClick={() => handleCardClick(item)}
-                className={`flex-shrink-0 snap-start text-left cursor-pointer group h-full ${index === galleryItems.length - 1 ? 'relative z-20' : ''}`}
+                className={`flex-shrink-0 text-left cursor-pointer group h-full ${index === galleryItems.length - 1 ? 'relative z-20' : ''}`}
                 {...(mounted ? {
                   whileHover: { scale: 1.06, y: -6, boxShadow: '0 12px 32px rgba(255, 255, 255, 0.12)' },
                   whileTap: { scale: 0.98 },
@@ -441,25 +426,13 @@ export default function GallerySection() {
                 } : {})}
               >
                 <div className="relative overflow-hidden bg-bg-card shadow-lg group-hover:shadow-white/10 transition-all duration-300 h-full flex-1 min-w-[170px] sm:min-w-[210px] md:min-w-[240px] max-w-[280px]">
-                  {/* Video or Image - Portrait 9:16 */}
+                  {/* Image - Portrait 9:16 */}
                   <div className="relative aspect-[9/16] h-full w-full">
-                    {item.mediaType === 'video' ? (
-                      <video
-                        src={item.mediaSrc}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="auto"
-                        className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
-                      />
-                    ) : (
-                      <img
-                        src={item.mediaSrc || item.imageSrc}
-                        alt={item.title}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
+                    <img
+                      src={item.mediaSrc}
+                      alt={title}
+                      className="w-full h-full object-cover gallery-video brightness-75 contrast-90"
+                    />
                     {/* Gradient overlay on hover */}
                     <motion.div 
                       className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"

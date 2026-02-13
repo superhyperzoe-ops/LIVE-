@@ -17,14 +17,12 @@ const GallerySection = dynamic(() => import('@/components/GallerySection'), {
 import ContactSection from '@/components/ContactSection'
 import AboutSection from '@/components/AboutSection'
 import Footer from '@/components/Footer'
-import ScrollSnapController from '@/components/ScrollSnapController'
 
 export default function Home() {
   return (
     <>
       <Navbar />
       <ScrollProgressBar />
-      <ScrollSnapController />
       <main className="w-full max-w-full bg-black relative z-[5] overflow-x-hidden">
         <Hero />
         <TechnologySection />
@@ -41,4 +39,3 @@ export default function Home() {
     </>
   )
 }
-

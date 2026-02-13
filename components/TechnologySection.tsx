@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { useRef } from 'react'
 import Layout from './Layout'
 import { staggerContainer, fadeInUp } from '@/lib/animations'
-import VideoFrameCapture from './VideoFrameCapture'
 import GlitchLinesAnimation from './GlitchLinesAnimation'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -85,7 +84,6 @@ export default function TechnologySection() {
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id)
     if (el) {
-      // Use native scrollIntoView with smooth behavior (works with CSS scroll-snap)
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
@@ -94,7 +92,7 @@ export default function TechnologySection() {
     <section 
       ref={sectionRef}
       id="technology" 
-      className="h-[100svh] flex items-center py-6 sm:py-8 lg:py-12 snap-start snap-normal scroll-mt-[66px] overflow-hidden"
+      className="h-[100svh] flex items-center py-6 sm:py-8 lg:py-12 scroll-mt-[66px] overflow-hidden"
     >
       {/* Animation de lignes avec glitch sur la droite */}
       <GlitchLinesAnimation zIndex={5} />
@@ -165,30 +163,22 @@ export default function TechnologySection() {
                     },
                   }}
                 >
-                  {(card.imageUrl.endsWith('.MOV') || card.imageUrl.endsWith('.mov')) ? (
-                    <VideoFrameCapture
-                      videoSrc={card.imageUrl}
-                      alt={card.title}
-                      className="w-full h-full object-cover technology-card-image"
-                    />
-                  ) : (
-                    <motion.img
-                      src={card.imageUrl}
-                      alt={card.title}
-                      className={`w-full h-full object-cover technology-card-image ${
-                        card.sectionId === 'moderation'
-                          ? 'object-right object-bottom scale-150 origin-bottom-right'
-                          : ''
-                      }`}
-                      whileHover={{
-                        filter: 'saturate(1.06) contrast(1.08)',
-                        transition: {
-                          duration: 0.3,
-                          ease: [0.25, 0.46, 0.45, 0.94] as const,
-                        },
-                      }}
-                    />
-                  )}
+                  <motion.img
+                    src={card.imageUrl}
+                    alt={card.title}
+                    className={`w-full h-full object-cover technology-card-image ${
+                      card.sectionId === 'moderation'
+                        ? 'object-right object-bottom scale-150 origin-bottom-right'
+                        : ''
+                    }`}
+                    whileHover={{
+                      filter: 'saturate(1.06) contrast(1.08)',
+                      transition: {
+                        duration: 0.3,
+                        ease: [0.25, 0.46, 0.45, 0.94] as const,
+                      },
+                    }}
+                  />
                 </motion.div>
                 {/* Title and Subtitle container */}
                 <motion.div
@@ -230,4 +220,3 @@ export default function TechnologySection() {
     </section>
   )
 }
-

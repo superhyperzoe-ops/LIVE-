@@ -68,7 +68,6 @@
   
   footer {
     flex-shrink: 0;
-    scroll-snap-align: none;
   }
   
   /* Headings : OldStandardTT Bold */
@@ -389,8 +388,8 @@ nav a,
   transform: translateX(8px);
 }
 
-/* Gallery Video - Subtle visual unification filter */
-/* Applied to all videos in the Gallery section for cohesive rendering */
+/* Gallery Media - Subtle visual unification filter */
+/* Applied to all gallery images for cohesive rendering */
 /* Goal: Subtle visual cohesion without noticeable filtering */
 
 .gallery-video {
@@ -431,7 +430,7 @@ nav a,
   );
   mix-blend-mode: soft-light;
   opacity: 0.3; /* Low opacity for subtlety */
-  z-index: 0; /* Behind video content */
+  z-index: 0; /* Behind media content */
 }
 
 /* Static blocks for reduced motion preference */
@@ -484,9 +483,8 @@ nav a,
     border-radius: 0 !important;
   }
 
-  /* Gallery video elements - no rounded corners */
+  /* Gallery media elements - no rounded corners */
   .gallery-video,
-  section#gallery video,
   section#gallery img {
     border-radius: 0 !important;
   }
@@ -629,4 +627,3 @@ nav a,
     color: black;
   }
 }
-

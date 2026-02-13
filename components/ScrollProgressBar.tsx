@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
  * 
  * Affiche une barre de progression en haut de la page qui reflète
  * l'avancement du scroll vertical global (0% en haut, 100% en bas).
- * Fonctionne indépendamment du scroll-snap et de la logique de sections.
+ * Fonctionne indépendamment de la logique de sections.
  */
 export default function ScrollProgressBar() {
   const [progress, setProgress] = useState(0)
@@ -60,4 +60,3 @@ export default function ScrollProgressBar() {
     </div>
   )
 }
-

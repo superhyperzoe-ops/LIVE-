@@ -66,23 +66,11 @@ export default function Modal({ isOpen, onClose, imageUrl, title, description }:
               </svg>
             </motion.button>
             <div className="relative aspect-video">
-              {imageUrl.endsWith('.mp4') || imageUrl.endsWith('.mov') || imageUrl.endsWith('.MOV') || imageUrl.includes('.mp4') || imageUrl.includes('.mov') || imageUrl.includes('.MOV') ? (
-                <video
-                  src={imageUrl}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  controls
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <img
-                  src={imageUrl}
-                  alt={title}
-                  className="w-full h-full object-cover"
-                />
-              )}
+              <img
+                src={imageUrl}
+                alt={title}
+                className="w-full h-full object-cover"
+              />
             </div>
             <motion.div 
               className="p-8"
@@ -99,4 +87,3 @@ export default function Modal({ isOpen, onClose, imageUrl, title, description }:
     </AnimatePresence>
   )
 }
-

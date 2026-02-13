@@ -4,7 +4,6 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { staggerContainer, fadeInUp } from '@/lib/animations'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { getVideoUrl } from '@/lib/videos'
 import GlitchLinesAnimation from './GlitchLinesAnimation'
 
 type SystemRowProps = {
@@ -15,13 +14,6 @@ type SystemRowProps = {
   href: string
   direction?: 'left' | 'right'
   delay?: number
-}
-
-const getVideoType = (src: string) => {
-  const lower = src.toLowerCase()
-  if (lower.endsWith('.mp4')) return 'video/mp4'
-  if (lower.endsWith('.mov')) return 'video/quicktime'
-  return undefined
 }
 
 const SystemRow: React.FC<SystemRowProps> = ({ title, label, description, imageSrc, href, direction, delay = 0 }) => {
@@ -81,23 +73,18 @@ const SystemRow: React.FC<SystemRowProps> = ({ title, label, description, imageS
         </div>
       </div>
 
-      {/* Colonne vidéo */}
+      {/* Colonne image */}
       <div className="relative h-40 md:h-44 lg:h-52 overflow-hidden">
         <motion.div
           className="absolute inset-0 overflow-hidden"
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
         >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
+          <img
+            src={imageSrc}
+            alt={title}
             className="h-full w-full object-cover"
-          >
-            <source src={imageSrc} type={getVideoType(imageSrc)} />
-          </video>
+          />
         </motion.div>
       </div>
     </motion.article>
@@ -108,7 +95,7 @@ export default function SystemSummary() {
   const { t } = useLanguage()
   
   return (
-    <section id="system" className="h-[100svh] w-full flex flex-col justify-center items-center py-10 lg:py-12 snap-start snap-always scroll-mt-[66px] bg-black overflow-hidden">
+    <section id="system" className="h-[100svh] w-full flex flex-col justify-center items-center py-10 lg:py-12 scroll-mt-[66px] bg-black overflow-hidden">
       {/* Animation de lignes avec glitch sur la droite */}
       <GlitchLinesAnimation zIndex={5} />
       <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -125,7 +112,7 @@ export default function SystemSummary() {
                 title={t('system.speechToVideo')}
                 label={t('system.mode01')}
                 description={t('system.speechDescription')}
-                imageSrc="/videos/core/speech_final.mp4"
+                imageSrc="/Image_system_tech.png"
                 href="#speech-detail"
                 direction="left"
                 delay={0.1}
@@ -134,7 +121,7 @@ export default function SystemSummary() {
                 title={t('system.textToVideo')}
                 label={t('system.mode02')}
                 description={t('system.textDescription')}
-                imageSrc="/videos/core/text_final.mp4"
+                imageSrc="/Image_style_tech.png"
                 href="#text-detail"
                 direction="right"
                 delay={0.2}

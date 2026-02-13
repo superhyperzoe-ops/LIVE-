@@ -11,7 +11,7 @@ export default function AboutSection() {
   const prefersReducedMotion = useReducedMotion()
   
   return (
-    <section id="about" className="h-[100svh] flex flex-col justify-center items-center py-10 lg:py-12 snap-start snap-always scroll-mt-[66px] overflow-hidden">
+    <section id="about" className="h-[100svh] flex flex-col justify-center items-center py-10 lg:py-12 scroll-mt-[66px] overflow-hidden">
       {/* Animation de lignes avec glitch sur la droite */}
       <GlitchLinesAnimation zIndex={5} />
       <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -98,4 +98,3 @@ export default function AboutSection() {
     </section>
   )
 }
-

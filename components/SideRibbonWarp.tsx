@@ -68,7 +68,7 @@ export default function SideRibbonWarp({
     eventEasing: (t: number) => 1 - Math.pow(1 - t, 3), // easeOutCubic
 
     // Quantization (reduced for smoother movement)
-    quantStep: 0.5, // Quantization step for angular snap (smaller = smoother)
+    quantStep: 0.5, // Quantization step for angular changes (smaller = smoother)
   }
 
   // Smooth interpolation (lerp) - faster for smoother transitions
@@ -494,4 +494,3 @@ export default function SideRibbonWarp({
     </div>
   )
 }
-

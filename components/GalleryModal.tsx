@@ -61,7 +61,6 @@ export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProp
   if (!item) return null
 
   const title = language === 'fr' ? item.titleFr : item.title
-  const tagline = language === 'fr' ? item.taglineFr : item.tagline
   const description = language === 'fr' ? item.descriptionFr : item.description
 
   return (
@@ -177,23 +176,11 @@ export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProp
               {/* Right column: Media */}
               <div className="flex items-center justify-center lg:justify-end">
                 <div className="relative w-full max-w-[320px] aspect-[9/16] overflow-hidden border border-white/10">
-                  {item.mediaType === 'video' || item.mediaSrc.endsWith('.mp4') || item.mediaSrc.endsWith('.mov') || item.mediaSrc.endsWith('.MOV') ? (
-                    <video
-                      src={item.mediaSrc}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      controls
-                      className="w-full h-full object-cover gallery-video"
-                    />
-                  ) : (
-                    <img
-                      src={item.mediaSrc}
-                      alt={title}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
+                  <img
+                    src={item.mediaSrc}
+                    alt={title}
+                    className="w-full h-full object-cover gallery-video"
+                  />
                 </div>
               </div>
             </div>
@@ -203,4 +190,3 @@ export default function GalleryModal({ isOpen, onClose, item }: GalleryModalProp
     </AnimatePresence>
   )
 }
-

@@ -3,7 +3,6 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { getVideoUrl } from '@/lib/videos'
 import GlitchLinesAnimation from './GlitchLinesAnimation'
 
 export default function TextToVideoDetails() {
@@ -104,7 +103,7 @@ export default function TextToVideoDetails() {
     <section 
       ref={sectionRef}
       id="text-detail" 
-      className="h-[100svh] flex flex-col justify-center items-center py-10 lg:py-12 snap-start snap-always scroll-mt-[66px] relative overflow-hidden"
+      className="h-[100svh] flex flex-col justify-center items-center py-10 lg:py-12 scroll-mt-[66px] relative overflow-hidden"
     >
       {/* Animation de lignes avec glitch sur la droite */}
       <GlitchLinesAnimation zIndex={5} />
@@ -113,7 +112,7 @@ export default function TextToVideoDetails() {
         <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 lg:gap-8">
           {/* Two-column layout with premium scroll reveal animations */}
           <div className="grid gap-10 md:gap-14 lg:gap-20 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-center">
-            {/* Left: Video with breathing frame and hover interactions */}
+            {/* Left: Image with breathing frame and hover interactions */}
             <motion.div
               ref={videoContainerRef}
               className="relative overflow-hidden border border-white/10 bg-white/[0.02] [clip-path:polygon(0 0,100% 0,100% 100%,0 100%)] group"
@@ -127,27 +126,14 @@ export default function TextToVideoDetails() {
                 width: '100%',
               }}
             >
-              <video
-                src="/videos/core/text_final.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
+              <img
+                src="/Image_style_tech.png"
+                alt={t('text.title')}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
                 style={{ 
                   minHeight: '400px',
                   width: '100%',
                   height: '100%',
-                }}
-                onError={(e) => {
-                  console.error('Text video error:', e)
-                  console.error('Video src:', getVideoUrl('text'))
-                  console.error('Video element:', e.currentTarget)
-                }}
-                onLoadedData={(e) => {
-                  console.log('Text video loaded:', getVideoUrl('text'))
-                  console.log('Video dimensions:', e.currentTarget.videoWidth, 'x', e.currentTarget.videoHeight)
                 }}
               />
             </motion.div>

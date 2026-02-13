@@ -669,7 +669,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="h-[100svh] flex items-center py-10 lg:py-12 snap-start snap-always scroll-mt-[66px] overflow-hidden">
+    <section id="contact" className="h-[100svh] flex items-center py-10 lg:py-12 scroll-mt-[66px] overflow-hidden">
       {/* Animation de lignes avec glitch sur la droite */}
       <GlitchLinesAnimation zIndex={5} />
       <Layout>
@@ -682,4 +682,3 @@ export default function ContactSection() {
     </section>
   )
 }
-
