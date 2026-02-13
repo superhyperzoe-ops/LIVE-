@@ -338,17 +338,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         fr: 'Merci ! Nous vous contacterons bientôt.',
       },
 
-      // About Section
-      'about.title': { en: 'About', fr: 'À propos' },
-      'about.para1': {
-        en: 'We are Obvious, a French trio of artists and researchers working with artificial intelligence to create art. Inspired by the Renaissance workshops, we operate at the crossroads of academic research and art.',
-        fr: 'Nous sommes Obvious, un trio français d\'artistes et de chercheurs travaillant avec l\'intelligence artificielle pour créer de l\'art. Inspirés par les ateliers de la Renaissance, nous opérons au carrefour de la recherche académique et de l\'art.',
-      },
-      'about.para2': {
-        en: 'Our work consists in researching and building artificial intelligence algorithms in the creative field, and producing artistic series of artworks using those tools. Our research laboratory hosted in Sorbonne University and funded by the French National Research Agency (ANR) is leading research in the fields of image, video and sound generation. We are behind the first artwork created using artificial intelligence to go through a major auction house (Christie\'s, 2018), and we have been exhibited in some of the world\'s largest institutions. We are represented in different galleries in France and South Korea.',
-        fr: 'Notre travail consiste à rechercher et construire des algorithmes d\'intelligence artificielle dans le domaine créatif, et à produire des séries artistiques d\'œuvres d\'art en utilisant ces outils. Notre laboratoire de recherche hébergé à l\'Université de la Sorbonne et financé par l\'Agence Nationale de la Recherche (ANR) mène des recherches dans les domaines de la génération d\'images, de vidéos et de sons. Nous sommes à l\'origine de la première œuvre d\'art créée à l\'aide de l\'intelligence artificielle à passer par une grande maison de vente aux enchères (Christie\'s, 2018), et nous avons été exposés dans certaines des plus grandes institutions du monde. Nous sommes représentés dans différentes galeries en France et en Corée du Sud.',
-      },
-
       // Footer
       'footer.description': {
         en: 'Creators of immersive live experiences through artificial intelligence and real-time generative design.',
@@ -390,10 +379,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         en: 'Would you like us to create a Lora for you?',
         fr: 'Souhaitez-vous que nous créions un Lora pour vous ?',
       },
-      'contact.yes': { en: 'Yes', fr: 'Oui' },
-      'contact.no': { en: 'No', fr: 'Non' },
-      'contact.text': { en: 'Text', fr: 'Texte' },
-      'contact.speech': { en: 'Speech', fr: 'Parole' },
       'contact.yourName': { en: 'Your name', fr: 'Votre nom' },
       'contact.emailPlaceholder': {
         en: 'your.email@example.com',
