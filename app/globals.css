@@ -10,8 +10,6 @@
   
   html {
     scroll-behavior: smooth; /* Native smooth scrolling */
-    /* Force snapping to avoid being stuck between sections */
-    scroll-snap-type: y mandatory;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden; /* Prevent horizontal scrolling */
@@ -50,8 +48,6 @@
   }
   
   section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always; /* Always land on a section */
     min-height: 100vh;
     scroll-margin-top: 66px; /* Compensate for navbar height */
     position: relative;
@@ -180,13 +176,6 @@
     display: none;
   }
   
-  .snap-start {
-    scroll-snap-align: start;
-  }
-  
-  .snap-always {
-    scroll-snap-stop: always;
-  }
 }
 
 /* TYPO SYSTEME GLOBAL */

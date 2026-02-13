@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { staggerContainer, fadeInUp, scaleIn, clipReveal } from '@/lib/animations'
-const HERO_VIDEO_SRC = '/Vidéof/accueil_final.mp4'
+const HERO_VIDEO_SRC = '/Videos/accueil_final.mp4'
 
 export default function Hero() {
   const { t } = useLanguage()
